@@ -17,4 +17,4 @@ const DBConnection = () => {
   });
 };
 
-module.exports = DBConnection;
+module.export = DBConnection;

@@ -45,4 +45,4 @@ const Project = new Schema(
   { timestamps: true }
 );
 
-module.exports = model('projects', Project);
+module.export = model('projects', Project);

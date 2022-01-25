@@ -8,4 +8,4 @@ const ProjectRoutes = require('./project');
 // router.use('/users', UserRoutes);
 // router.use('/projects', ProjectRoutes);
 
-module.exports = router;
+module.export = router;
