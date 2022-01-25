@@ -15,8 +15,17 @@
     "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\""
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^14.2.0",
+    "elasticsearch": "^16.7.2",
     "express": "^4.17.2",
+    "express-jwt": "^6.1.0",
+    "mongodb": "^4.3.1",
+    "mongoose": "^6.1.8",
+    "nodemailer": "^6.7.2",
+    "passport": "^0.5.2",
+    "pino": "^7.6.4",
+    "pino-pretty": "^7.5.0",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
@@ -25,12 +34,8 @@
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-recommended": "^4.1.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^7.0.4",
     "jest": "^27.4.7",
     "lint-staged": "^12.3.1",
