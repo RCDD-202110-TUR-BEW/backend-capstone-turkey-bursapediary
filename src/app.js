@@ -19,4 +19,4 @@ app.listen(PORT, () => {
   DBConnection();
 });
 
-module.exports = app;
+module.export = app;
