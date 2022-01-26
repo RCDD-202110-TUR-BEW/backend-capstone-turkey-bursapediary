@@ -24,3 +24,5 @@ yarn-error.log*
 
 /.husky
 .env
+yarn.lock
+package-lock.json
