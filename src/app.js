@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const jwt = require('express-jwt');
+const cookieParser = require('cookie-parser');
+const { encryptCookieNodeMiddleware } = require('encrypt-cookie');
 const DBConnection = require('./database/config');
 const router = require('./routers');
 const logger = require('./utils/logger');
@@ -18,6 +20,8 @@ app.use(
     algorithms: ['HS256'],
   })
 );
+app.use(cookieParser(process.env.SECRET_KEY));
+app.use(encryptCookieNodeMiddleware(process.env.SECRET_KEY));
 app.use('/', router);
 
 app.listen(PORT, () => {

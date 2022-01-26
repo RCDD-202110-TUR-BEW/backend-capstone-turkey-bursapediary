@@ -51,3 +51,4 @@ routes.post(
     .bail(),
   UserController.register
 );
+routes.post('logout', UserController.logout);

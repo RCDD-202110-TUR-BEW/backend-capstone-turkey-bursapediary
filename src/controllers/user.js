@@ -22,6 +22,7 @@ const login = async (req, res) => {
     if (!valid) {
       return res.status(400).json({ message: 'wrong user name or passowrd' });
     }
+    const cookieAge = 14 * 24 * 3600;
 
     const payload = {
       usernam: user.usernam,
@@ -32,9 +33,13 @@ const login = async (req, res) => {
     };
 
     const token = jwt.sign(payload, process.env.SECRET_KEY, {
-      expiresIn: 60 * 2,
+      expiresIn: cookieAge,
     });
-
+    res.cookie('_t', token, {
+      maxAge: cookieAge * 1000,
+      httpOnly: true,
+      signed: true,
+    });
     return res.json({ token });
   } catch (err) {
     return res.status(400).send(err);
@@ -67,5 +72,12 @@ const register = async (req, res) => {
     return res.status(400).send(err);
   }
 };
-
-module.exports = { login, register };
+const logout = async (req, res) => {
+  try {
+    res.clearCookie('_t');
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+module.exports = { login, register, logout };
