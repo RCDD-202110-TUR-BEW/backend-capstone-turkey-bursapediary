@@ -8,6 +8,7 @@
   "scripts": {
     "start": "nodemon src/app.js",
     "test": "yarn validate && jest --passWithNoTests",
+    "test:dev": "mocha --exit",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
@@ -29,6 +30,8 @@
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
+    "chai": "^4.3.5",
+    "chai-http": "^4.3.0",
     "eslint": "^8.7.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-node": "^4.1.0",
@@ -42,6 +45,7 @@
     "husky": "^7.0.4",
     "jest": "^27.4.7",
     "lint-staged": "^12.3.1",
+    "mocha": "^9.2.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
   }
