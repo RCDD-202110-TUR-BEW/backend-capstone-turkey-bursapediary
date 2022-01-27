@@ -8,7 +8,7 @@
   "scripts": {
     "start": "nodemon src/app.js",
     "test": "yarn validate && jest --passWithNoTests",
-    "test:dev": "mocha --exit",
+    "test:dev": "mocha 'tests/**/*.js' --recursive --timeout 60000 --exit",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
@@ -27,6 +27,7 @@
     "passport": "^0.5.2",
     "pino": "^7.6.4",
     "pino-pretty": "^7.5.0",
+    "sinon": "^12.0.1",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
@@ -46,6 +47,7 @@
     "jest": "^27.4.7",
     "lint-staged": "^12.3.1",
     "mocha": "^9.2.0",
+    "mocha-sinon": "^2.1.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
   }

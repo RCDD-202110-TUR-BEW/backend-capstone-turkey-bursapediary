@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+
+dotenv.config();
 const nodemailer = require('nodemailer');
 const logger = require('./logger');
 
@@ -24,11 +27,9 @@ const sendEmail = (user) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      logger.info(error);
-      return error;
+      logger.info(error.message);
     }
     logger.info(info.response);
-    return info.response;
   });
 };
 
