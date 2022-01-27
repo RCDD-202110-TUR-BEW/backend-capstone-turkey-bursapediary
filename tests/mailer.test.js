@@ -2,7 +2,7 @@
 /* eslint-disable node/no-unpublished-require */
 /* eslint-disable no-unused-expressions */
 
-require('mocha-sinon');
+// require('mocha-sinon');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const logger = require('../src/utils/logger');
