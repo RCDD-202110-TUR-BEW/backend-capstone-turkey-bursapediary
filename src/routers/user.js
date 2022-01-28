@@ -1,12 +1,11 @@
 const express = require('express');
-
-const routes = express.Router();
-
 const { check } = require('express-validator');
 const UserController = require('../controllers/user');
 
+const routes = express.Router();
+
 routes.post(
-  'login',
+  '/login',
   check('username', 'Username must be at least 4 characters long')
     .notEmpty()
     .withMessage('Username should not be empty')
@@ -19,7 +18,7 @@ routes.post(
 );
 
 routes.post(
-  'register',
+  '/register',
   check('username', 'Username must be at least 4 characters long')
     .notEmpty()
     .withMessage('Username should not be empty')
@@ -51,4 +50,5 @@ routes.post(
     .bail(),
   UserController.register
 );
-routes.post('logout', UserController.logout);
+
+routes.post('/logout', UserController.logout);

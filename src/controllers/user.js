@@ -15,17 +15,19 @@ const login = async (req, res) => {
     const user = await User.findOne({ username });
 
     if (!user) {
-      return res.status(400).json({ message: 'wrong user name or passowrd' });
+      return res.status(400).json({ message: 'wrong username or passowrd' });
     }
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      return res.status(400).json({ message: 'wrong user name or passowrd' });
+      return res.status(400).json({ message: 'wrong username or passowrd' });
     }
+
+    //  14 days in seconds
     const cookieAge = 14 * 24 * 3600;
 
     const payload = {
-      usernam: user.usernam,
+      username: user.username,
       email: user.email,
       name: user.name,
       role: user.role,
@@ -54,7 +56,6 @@ const register = async (req, res) => {
       return res.status(400).json(result.errors);
     }
     const { username, password, email, name } = req.body;
-
     const usedUser = await User.findOne({ username });
 
     if (usedUser) {
@@ -72,7 +73,8 @@ const register = async (req, res) => {
     return res.status(400).send(err);
   }
 };
-const logout = async (req, res) => {
+
+const logout = (req, res) => {
   try {
     res.clearCookie('_t');
     return res.status(200).json({ success: true });
@@ -80,4 +82,5 @@ const logout = async (req, res) => {
     return res.status(400).send(err);
   }
 };
+
 module.exports = { login, register, logout };
