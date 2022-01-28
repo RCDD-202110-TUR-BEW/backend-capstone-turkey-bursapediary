@@ -15,12 +15,12 @@ const login = async (req, res) => {
     const user = await User.findOne({ username });
 
     if (!user) {
-      return res.status(400).json({ message: 'wrong username or passowrd' });
+      return res.status(400).json({ message: 'wrong username or password' });
     }
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      return res.status(400).json({ message: 'wrong username or passowrd' });
+      return res.status(400).json({ message: 'wrong username or password' });
     }
 
     //  14 days in seconds
