@@ -15,14 +15,14 @@ const isLogged = (req, res, next) => {
         next();
       }
     } catch (error) {
-      res
+      return res
         .clearCookie('token')
         .status(400)
         .json({ error: 'token expired please login' });
     }
   }
 
-  res
+  return res
     .clearCookie('token')
     .status(400)
     .json({ error: 'token not found try to login' });
