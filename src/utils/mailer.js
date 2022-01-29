@@ -18,7 +18,7 @@ const sendEmail = (user) => {
     from: process.env.EMAIL,
     to: user.email,
     subject: 'Welcome | Your account created successfully',
-    text: `You can login the to platform by the information below: \n
+    text: `You can login to the platform by the information below: \n
     Login URL: http://localhost:3000
     Email: ${user.email} \n
     Password: The password used while registration \n
