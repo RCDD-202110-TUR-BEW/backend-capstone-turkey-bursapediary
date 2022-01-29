@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const { SECRET_KEY } = process.env;
 
-// verify token cookie middleware
 const isAdmin = (req, res, next) => {
   const { token } = req.cookies;
 
@@ -13,22 +12,21 @@ const isAdmin = (req, res, next) => {
         req.user = loggedUser;
         next();
       } else {
-        return res
-          .clearCookie('token')
-          .status(400)
-          .json({ error: 'access denied' });
+        return res.clearCookie('token').status(403).json({
+          error: 'You do not have permissions to perform this action',
+        });
       }
     } catch (error) {
       return res
         .clearCookie('token')
-        .status(400)
-        .json({ error: 'token expired please login' });
+        .status(422)
+        .json({ error: 'Token expired try to login' });
     }
   }
   return res
     .clearCookie('token')
-    .status(400)
-    .json({ error: 'token not found try to login' });
+    .status(401)
+    .json({ error: 'Token is not found try to login' });
 };
 
 module.exports = {
