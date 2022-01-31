@@ -1,5 +1,29 @@
 const { model, Schema } = require('mongoose');
 
+const Comment = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+  }, 
+  body      : String,
+  },
+  { timestamps: true }
+);
+
+const Review = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+  }, 
+  rating: {
+    type: number,
+    enum : [1, 2, 3, 4, 5,],
+  },
+  reviewText : String,
+  },
+  { timestamps: true }
+);
+
 const Project = new Schema(
   {
     title: {
@@ -29,6 +53,8 @@ const Project = new Schema(
       required: [true, 'isExpired is required'],
       default: false,
     },
+    comments: [Comment],
+    reviews: [Review],
     owners: [
       {
         type: Schema.Types.ObjectId,
