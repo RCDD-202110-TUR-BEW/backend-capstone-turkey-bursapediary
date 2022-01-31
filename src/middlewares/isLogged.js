@@ -30,5 +30,4 @@ const isLogged = (req, res, next) => {
 
 module.exports = {
   isLogged,
-  SECRET_KEY,
 };
