@@ -31,5 +31,4 @@ const isAdmin = (req, res, next) => {
 
 module.exports = {
   isAdmin,
-  SECRET_KEY,
 };
