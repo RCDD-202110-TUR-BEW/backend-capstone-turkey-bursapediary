@@ -1,8 +1,9 @@
 const dotenv = require('dotenv');
 
-dotenv.config();
 const nodemailer = require('nodemailer');
 const logger = require('./logger');
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
