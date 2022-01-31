@@ -55,8 +55,8 @@ const getAllComments = async (req, res, next) => {
 };
 
 const getCommentByID = async (req, res, next) => {
-    const {projectid, commentid} = req.params;
-    const project = await Project.findById(projectid);
+    const {id, commentid} = req.params;
+    const project = await Project.findById(id);
     try {
         if (!project) {
         const error = new Error("Could not find Project.");
@@ -98,8 +98,8 @@ const getAllReviews = async (req, res, next) => {
 };
 
 const getReviewByID = async (req, res, next) => {
-    const {projectid, reviewid} = req.params;
-    const project = await Project.findById(projectid);
+    const {id, reviewid} = req.params;
+    const project = await Project.findById(id);
     try {
         if (!project) {
         const error = new Error("Could not find Project.");

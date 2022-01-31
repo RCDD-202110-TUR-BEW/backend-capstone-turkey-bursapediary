@@ -5,7 +5,7 @@ const Comment = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users',
   }, 
-  commentText : String,
+  content : String,
   },
   { timestamps: true }
 );
@@ -19,7 +19,7 @@ const Review = new Schema({
     type: Number,
     enum : [1, 2, 3, 4, 5,],
   },
-  reviewText : String,
+  content : String,
   },
   { timestamps: true }
 );
