@@ -1,7 +1,7 @@
 
 const Project = require("../models/project");
 
-getAllProject = async (req, res, next) => {
+const getAllProjects = async (req, res, next) => {
     const projects = await Project.find({});
     try {
         if (!projects) {
@@ -18,7 +18,7 @@ getAllProject = async (req, res, next) => {
     }
 };
 
-getProjectByID = async (req, res, next) => {
+const getProjectByID = async (req, res, next) => {
     const {id} = req.params;
     const project = await Project.findById(id);
     try {
@@ -36,7 +36,7 @@ getProjectByID = async (req, res, next) => {
     }
 };
 
-getAllComments = async (req, res, next) => {
+const getAllComments = async (req, res, next) => {
     const {id} = req.params;
     const project = await Project.findById(id);
     try {
@@ -54,7 +54,7 @@ getAllComments = async (req, res, next) => {
     }
 };
 
-getCommentByID = async (req, res, next) => {
+const getCommentByID = async (req, res, next) => {
     const {projectid, commentid} = req.params;
     const project = await Project.findById(projectid);
     try {
@@ -79,7 +79,7 @@ getCommentByID = async (req, res, next) => {
     }
 };
 
-getAllReviews = async (req, res, next) => {
+const getAllReviews = async (req, res, next) => {
     const {id} = req.params;
     const project = await Project.findById(id);
     try {
@@ -97,7 +97,7 @@ getAllReviews = async (req, res, next) => {
     }
 };
 
-getReviewByID = async (req, res, next) => {
+const getReviewByID = async (req, res, next) => {
     const {projectid, reviewid} = req.params;
     const project = await Project.findById(projectid);
     try {
