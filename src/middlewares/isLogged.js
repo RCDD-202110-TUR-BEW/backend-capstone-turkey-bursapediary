@@ -1,9 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const jwt = require('jsonwebtoken');
 
 const { SECRET_KEY } = process.env;
 
-// verify token cookie middleware
 const isLogged = (req, res, next) => {
   const { token } = req.cookies;
 
@@ -17,15 +15,15 @@ const isLogged = (req, res, next) => {
     } catch (error) {
       return res
         .clearCookie('token')
-        .status(400)
-        .json({ error: 'token expired please login' });
+        .status(422)
+        .json({ error: 'Token expired try to login' });
     }
   }
 
   return res
     .clearCookie('token')
-    .status(400)
-    .json({ error: 'token not found try to login' });
+    .status(401)
+    .json({ error: 'Token is not found try to login' });
 };
 
 module.exports = {
