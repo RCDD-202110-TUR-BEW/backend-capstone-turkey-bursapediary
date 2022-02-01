@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const Project = require('../models/project');
 
 const getAllProjects = async (req, res, next) => {
@@ -63,8 +64,8 @@ const getCommentByID = async (req, res, next) => {
       throw error;
     }
     //
-    const comment = await project.find({ 'comments._id': commentid });
-    if (!comment) {
+    const comment = project.comments.filter((item) => item._id === commentid);
+    if (comment.length < 1) {
       const error = new Error('Could not find Comment.');
       error.statusCode = 404;
       throw error;
@@ -106,8 +107,8 @@ const getReviewByID = async (req, res, next) => {
       throw error;
     }
     //
-    const review = await project.find({ 'reviews._id': reviewid });
-    if (!review) {
+    const review = project.reviews.filter((item) => item._id === reviewid);
+    if (review.length < 1) {
       const error = new Error('Could not find Review.');
       error.statusCode = 404;
       throw error;
