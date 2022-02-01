@@ -63,7 +63,7 @@ const getCommentByID = async (req, res, next) => {
       throw error;
     }
     //
-    const comment = await project.comments.find({ 'comment._id': commentid });
+    const comment = await project.find({ 'comments._id': commentid });
     if (!comment) {
       const error = new Error('Could not find Comment.');
       error.statusCode = 404;
@@ -106,7 +106,7 @@ const getReviewByID = async (req, res, next) => {
       throw error;
     }
     //
-    const review = await project.reviews.find({ 'rewiew._id': reviewid });
+    const review = await project.find({ 'reviews._id': reviewid });
     if (!review) {
       const error = new Error('Could not find Review.');
       error.statusCode = 404;
