@@ -29,6 +29,7 @@
     "pino": "^7.6.4",
     "pino-pretty": "^7.5.0",
     "sinon": "^12.0.1",
+    "swagger": "^0.7.5",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
