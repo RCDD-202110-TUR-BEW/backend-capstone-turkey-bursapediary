@@ -17,10 +17,13 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^14.2.0",
     "elasticsearch": "^16.7.2",
+    "encrypt-cookie": "^1.1.5",
     "express": "^4.17.2",
     "express-jwt": "^6.1.0",
+    "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.3.1",
     "mongoose": "^6.1.8",
