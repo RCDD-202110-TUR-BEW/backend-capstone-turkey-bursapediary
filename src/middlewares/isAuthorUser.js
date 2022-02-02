@@ -10,7 +10,7 @@ const isAuthorUser = (object, user, type) => {
     case 'comment':
       if (
         object.comments[
-          object.comments.findIndex((comment) => comment._id === user._id)
+          object.comments.findIndex((comment) => comment.user._id === user._id)
         ] !== -1
       )
         return true;
@@ -18,7 +18,7 @@ const isAuthorUser = (object, user, type) => {
     case 'review':
       if (
         object.reviews[
-          object.reviews.findIndex((review) => review._id === user._id)
+          object.reviews.findIndex((review) => review.user._id === user._id)
         ] !== -1
       )
         return true;
