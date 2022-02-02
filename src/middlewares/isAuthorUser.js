@@ -9,16 +9,16 @@ const isAuthorUser = (object, user, type) => {
       break;
     case 'comment':
       if (
-        object.comments[
-          object.comments?.findIndex((comment) => comment.user._id === user._id)
+        object.comments?.[
+          object.comments.findIndex((comment) => comment.user._id === user._id)
         ] !== -1
       )
         return true;
       break;
     case 'review':
       if (
-        object.reviews[
-          object.reviews?.findIndex((review) => review.user._id === user._id)
+        object.reviews?.[
+          object.reviews.findIndex((review) => review.user._id === user._id)
         ] !== -1
       )
         return true;
