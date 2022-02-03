@@ -52,3 +52,6 @@ routes.post(
 );
 
 routes.post('/logout', UserController.logout);
+routes.get('/:username', UserController.getUserProfile);
+
+module.exports = routes;

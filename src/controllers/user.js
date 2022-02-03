@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('express-jwt');
 
 const User = require('../models/user');
+const Project = require('../models/project');
 
 const login = async (req, res) => {
   try {
@@ -83,4 +84,42 @@ const logout = (req, res) => {
   }
 };
 
-module.exports = { login, register, logout };
+const getUserProfile = async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const info = {
+      username: user.username,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      type: user.type,
+    };
+
+    const donations = [];
+    for (let i = 0; i < user.donations.length; i += 1) {
+      const project = Project.findById(user.donations[i].projectID);
+      const donation = {
+        projectName: project.title,
+        donationAmount: user.donations[i].amount,
+        donationDate: user.donations[i].timestamp,
+      };
+      donations.push(donation);
+    }
+    info.donations = donations;
+
+    res.json(info);
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to generate user profile' });
+  }
+  return next();
+};
+
+module.exports = {
+  login,
+  register,
+  logout,
+  getUserProfile,
+};
