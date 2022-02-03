@@ -21,16 +21,26 @@ const supportProject = async (req, res, next) => {
           'Your requested amount can not be bigger than the remaining amount for this project',
       });
     }
-    const donation = {
+    const projectDonation = {
       amount: userAmount,
       userID,
       timestamp: new Date().toUTCString(),
     };
-    project.donations.push(donation);
+    project.donations.push(projectDonation);
     project.supporters.push(userID);
-    project.collectedAmount += donation.amount;
+    project.collectedAmount += projectDonation.amount;
 
+    const user = await User.findById(userID);
+
+    const userDonation = {
+      amount: userAmount,
+      // eslint-disable-next-line no-underscore-dangle
+      projectID: project._id,
+      timestamp: projectDonation.timestamp,
+    };
+    user.donations.push(userDonation);
     await project.save();
+    await user.save();
     return res.json(project);
   } catch (error) {
     res.status(422).json({ message: 'Unable to support project' });
