@@ -1,10 +1,8 @@
 const Project = require('../models/project');
 const User = require('../models/user');
 
-const isApplicableAmount = (amount, collected, requested) => {
-  if (requested <= amount - collected) return true;
-  return false;
-};
+const isApplicableAmount = (amount, collected, requested) =>
+  requested <= amount - collected;
 
 const supportProject = async (req, res, next) => {
   const { id } = req.params;
@@ -51,15 +49,15 @@ const supportProject = async (req, res, next) => {
 const getProjectSupporters = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const project = await Project.findById(id);
+    const project = await Project.findById(id).populate('supporters');
     const supporters = [];
     if (!project) res.status(404).json({ message: 'Could not find project' });
     for (let i = 0; i < project.supporters.length; i += 1) {
-      const user = User.findById(project.supporters[i]);
       const supporter = {
-        name: user.name,
-        amount: user.donations.find((donation) => donation.projectID === id)
-          .amount,
+        name: project.supporters[i].name,
+        amount: project.supporters[i].donations.find(
+          (donation) => donation.projectID === id
+        ).amount,
       };
       supporters.push(supporter);
     }
