@@ -87,7 +87,13 @@ const logout = (req, res) => {
 const getUserProfile = async (req, res, next) => {
   const { username } = req.params;
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate({
+      path: 'donations',
+      populate: {
+        path: 'projectID',
+        model: 'projects',
+      },
+    });
 
     if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -100,15 +106,15 @@ const getUserProfile = async (req, res, next) => {
     };
     const donations = [];
 
-    for (let i = 0; i < user.donations.length; i += 1) {
-      const project = Project.findById(user.donations[i].projectID);
-      const donation = {
-        projectName: project.title,
-        donationAmount: user.donations[i].amount,
-        donationDate: user.donations[i].timestamp,
+    user.donations.forEach((donation) => {
+      const single = {
+        projectName: donation.projectID.title,
+        donationAmount: donation.amount,
+        donationDate: donation.timestamp,
       };
-      donations.push(donation);
-    }
+      donations.push(single);
+    });
+
     await Promise.all(donations);
     info.donations = donations;
 
