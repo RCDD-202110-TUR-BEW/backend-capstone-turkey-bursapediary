@@ -88,6 +88,7 @@ const getUserProfile = async (req, res, next) => {
   const { username } = req.params;
   try {
     const user = await User.findOne({ username });
+
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const info = {
@@ -97,8 +98,8 @@ const getUserProfile = async (req, res, next) => {
       role: user.role,
       type: user.type,
     };
-
     const donations = [];
+
     for (let i = 0; i < user.donations.length; i += 1) {
       const project = Project.findById(user.donations[i].projectID);
       const donation = {
@@ -108,6 +109,7 @@ const getUserProfile = async (req, res, next) => {
       };
       donations.push(donation);
     }
+    await Promise.all(donations);
     info.donations = donations;
 
     res.json(info);
