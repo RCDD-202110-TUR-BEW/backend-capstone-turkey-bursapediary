@@ -52,15 +52,15 @@ const getProjectSupporters = async (req, res, next) => {
     const project = await Project.findById(id).populate('supporters');
     const supporters = [];
     if (!project) res.status(404).json({ message: 'Could not find project' });
-    for (let i = 0; i < project.supporters.length; i += 1) {
-      const supporter = {
-        name: project.supporters[i].name,
-        amount: project.supporters[i].donations.find(
+    project.supporters.forEach((supporter) => {
+      const single = {
+        name: supporter.name,
+        amount: supporter.donations.find(
           (donation) => donation.projectID === id
         ).amount,
       };
-      supporters.push(supporter);
-    }
+      supporters.push(single);
+    });
     return await Promise.all(supporters);
   } catch (error) {
     res.status(422).json({ message: 'Unable to find supporters' });
