@@ -1,5 +1,31 @@
 const { model, Schema } = require('mongoose');
 
+const Comment = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
+    content: String,
+  },
+  { timestamps: true }
+);
+
+const Review = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
+    rating: {
+      type: Number,
+      enum: [1, 2, 3, 4, 5],
+    },
+    content: String,
+  },
+  { timestamps: true }
+);
+
 const Project = new Schema(
   {
     title: {
@@ -41,13 +67,13 @@ const Project = new Schema(
         ref: 'users',
       },
     ],
+    comments: [Comment],
+    reviews: [Review],
     donations: [
       {
-        type: {
-          amount: Number,
-          userID: Schema.Types.ObjectId,
-          timestamp: Date,
-        },
+        amount: Number,
+        userID: { type: Schema.Types.ObjectId, ref: 'users' },
+        timestamp: Date,
       },
     ],
   },
