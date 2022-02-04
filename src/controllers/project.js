@@ -13,9 +13,9 @@ const filterProjects = async (req, res) => {
         { description: { $elemMatch: { $regex: q } } },
       ],
     });
-    res.status(200).json(projects);
-  } catch (e) {
-    res.status(400).json(e);
+    return res.json(projects);
+  } catch (error) {
+    return res.status(400).json(error);
   }
 };
 module.exports = { filterProjects };
