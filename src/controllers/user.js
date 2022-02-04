@@ -115,7 +115,6 @@ const getUserProfile = async (req, res, next) => {
       donations.push(single);
     });
 
-    await Promise.all(donations);
     info.donations = donations;
 
     res.json(info);
