@@ -106,6 +106,8 @@ const updateReview = async (req, res, next) => {
     });
   } catch (error) {
     res.status(422).json({ message: 'Unable to update review' });
+  }
+  return next();
 };
 
 const deleteReview = async (req, res, next) => {
@@ -134,6 +136,8 @@ const deleteReview = async (req, res, next) => {
     });
   } catch (error) {
     res.status(422).json({ message: 'Unable to update review' });
+  }
+  return next();
 };
 
 const getProjectSupporters = async (req, res, next) => {
