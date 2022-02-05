@@ -42,12 +42,14 @@ const User = new Schema(
         ref: 'projects',
       },
     ],
-    donations: {
-      type: [
-        { projectID: Schema.Types.ObjectId, timestamp: Date, amount: Number },
-      ],
-      _id: false,
-    },
+    donations: [
+      {
+        projectID: { type: Schema.Types.ObjectId, ref: 'projects' },
+        timestamp: Date,
+        amount: Number,
+        _id: false,
+      },
+    ],
   },
   { timestamps: true }
 );
