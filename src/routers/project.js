@@ -8,6 +8,6 @@ router.put('/:id/support', project.supportProject);
 router.get('/:id/supporters', project.getProjectSupporters);
 router.post('/:id/comments', project.createComment);
 router.put('/:id/comments/:commentId', project.updateComment);
-// router.delete('/:id/comments/:commentId', project.deleteComment);
+router.delete('/:id/comments/:commentId', project.deleteComment);
 
 module.exports = router;

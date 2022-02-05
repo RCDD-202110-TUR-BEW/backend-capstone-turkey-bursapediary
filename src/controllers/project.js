@@ -132,9 +132,40 @@ const updateComment = async (req, res, next) => {
   return next();
 };
 
+const deleteComment = async (req, res, next) => {
+  const { id, commentId } = req.params;
+
+  try {
+    const project = await Project.findById(id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const commentIndex = project.comments.findIndex(
+      // eslint-disable-next-line no-underscore-dangle
+      (single) => ObjectId(single._id).toString() === commentId
+    );
+
+    if (commentIndex === -1)
+      return res.status(404).json({ message: 'Comment not found' });
+
+    project.comments.splice(commentIndex, 1);
+
+    await project.save();
+
+    res.json({
+      message: 'Comment deleted successfully',
+      comments: project.comments,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to update comment' });
+  }
+  return next();
+};
+
 module.exports = {
   supportProject,
   getProjectSupporters,
   createComment,
   updateComment,
+  deleteComment,
 };
