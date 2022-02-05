@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const jwt = require('express-jwt');
 const cookieParser = require('cookie-parser');
 const { encryptCookieNodeMiddleware } = require('encrypt-cookie');
 const DBConnection = require('./database/config');
