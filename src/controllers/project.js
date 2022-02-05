@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const Project = require('../models/project');
 const User = require('../models/user');
 
@@ -70,7 +72,36 @@ const getProjectSupporters = async (req, res, next) => {
   return next();
 };
 
+const createComment = async (req, res, next) => {
+  const { id } = req.params;
+  const { userID, content } = req.body;
+
+  try {
+    const project = await Project.findOne({ _id: id });
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const comment = {
+      user: userID,
+      content,
+    };
+
+    project.comments.push(comment);
+
+    await project.save();
+
+    res.json({
+      message: 'Comment created successfully',
+      comments: project.comments,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to create comment' });
+  }
+  return next();
+};
+
 module.exports = {
   supportProject,
   getProjectSupporters,
+  createComment,
 };
