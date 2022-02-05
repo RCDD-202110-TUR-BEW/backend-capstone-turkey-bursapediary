@@ -13,13 +13,7 @@ const PORT = process.env.NODE_LOCAL_PORT;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(
-  '/',
-  jwt({
-    secret: process.env.SECRET_KEY,
-    algorithms: ['HS256'],
-  })
-);
+
 app.use(cookieParser(process.env.SECRET_KEY));
 app.use(encryptCookieNodeMiddleware(process.env.SECRET_KEY));
 app.use('/', router);
