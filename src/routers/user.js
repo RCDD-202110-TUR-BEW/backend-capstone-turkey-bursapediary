@@ -53,5 +53,9 @@ routes.post(
 
 routes.post('/logout', UserController.logout);
 routes.get('/:username', UserController.getUserProfile);
+routes.post('/', UserController.createUser);
+routes.get('/:id', UserController.getUser);
+routes.put('/:id', UserController.updateUser);
+routes.delete('/:id', UserController.deleteUser);
 
 module.exports = routes;
