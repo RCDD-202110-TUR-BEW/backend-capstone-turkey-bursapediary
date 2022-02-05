@@ -100,8 +100,41 @@ const createComment = async (req, res, next) => {
   return next();
 };
 
+const isEmpty = (field) => !!field;
+
+const updateComment = async (req, res, next) => {
+  const { id, commentId } = req.params;
+  const { content } = req.body;
+
+  try {
+    const project = await Project.findById(id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const comment = project.comments.find(
+      // eslint-disable-next-line no-underscore-dangle
+      (single) => ObjectId(single._id).toString() === commentId
+    );
+
+    if (!comment) return res.status(404).json({ message: 'Comment not found' });
+
+    comment.content = isEmpty(content) ? content : comment.content;
+
+    await project.save();
+
+    res.json({
+      message: 'Comment updated successfully',
+      comments: project.comments,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to update comment' });
+  }
+  return next();
+};
+
 module.exports = {
   supportProject,
   getProjectSupporters,
   createComment,
+  updateComment,
 };
