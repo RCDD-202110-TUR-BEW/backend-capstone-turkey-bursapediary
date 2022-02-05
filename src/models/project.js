@@ -41,6 +41,15 @@ const Project = new Schema(
         ref: 'users',
       },
     ],
+    donations: [
+      {
+        type: {
+          amount: Number,
+          userID: Schema.Types.ObjectId,
+          timestamp: Date,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
