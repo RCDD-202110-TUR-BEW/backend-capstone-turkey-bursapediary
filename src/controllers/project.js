@@ -159,6 +159,9 @@ const deleteComment = async (req, res, next) => {
     });
   } catch (error) {
     res.status(422).json({ message: 'Unable to update comment' });
+  }
+  return next();
+};
 
 const getProjectProfile = async (req, res, next) => {
   const { id } = req.params;
