@@ -101,7 +101,7 @@ const createComment = async (req, res, next) => {
   return next();
 };
 
-const isEmpty = (field) => !!field;
+const isNotEmpty = (field) => !!field;
 
 const updateComment = async (req, res, next) => {
   const { id, commentId } = req.params;
@@ -119,7 +119,7 @@ const updateComment = async (req, res, next) => {
 
     if (!comment) return res.status(404).json({ message: 'Comment not found' });
 
-    comment.content = isEmpty(content) ? content : comment.content;
+    comment.content = isNotEmpty(content) ? content : comment.content;
 
     await project.save();
 
