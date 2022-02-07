@@ -57,6 +57,13 @@ const createReview = async (req, res, next) => {
 
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
+    if (
+      project.reviews.find(
+        (review) => ObjectId(review.user).toString() === userID
+      )
+    )
+      return res.json({ message: 'You already reviewed this project' });
+
     const review = {
       user: userID,
       rating,
@@ -77,7 +84,7 @@ const createReview = async (req, res, next) => {
   return next();
 };
 
-const isEmpty = (field) => !!field;
+const isNotEmpty = (field) => !!field;
 
 const updateReview = async (req, res, next) => {
   const { id, reviewId } = req.params;
@@ -95,8 +102,8 @@ const updateReview = async (req, res, next) => {
 
     if (!review) return res.status(404).json({ message: 'Review not found' });
 
-    review.rating = isEmpty(rating) ? rating : review.rating;
-    review.content = isEmpty(content) ? content : review.content;
+    review.rating = isNotEmpty(rating) ? rating : review.rating;
+    review.content = isNotEmpty(content) ? content : review.content;
 
     await project.save();
 
