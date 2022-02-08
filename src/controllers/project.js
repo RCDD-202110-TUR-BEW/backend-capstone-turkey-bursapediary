@@ -15,9 +15,15 @@ const supportProject = async (req, res, next) => {
     if (
       !isApplicableAmount(project.amount, project.collectedAmount, userAmount)
     ) {
+      if (project.amount - project.collectedAmount === 0)
+        return res.status(422).json({
+          message:
+            'This project is done with funding, thank you for your interest',
+        });
       return res.status(422).json({
-        message:
-          'Your requested amount can not be bigger than the remaining amount for this project',
+        message: `Your requested amount can not be bigger than the ${
+          project.amount - project.collectedAmount
+        } remaining amount for this project`,
       });
     }
     const projectDonation = {
@@ -26,7 +32,15 @@ const supportProject = async (req, res, next) => {
       timestamp: new Date().toUTCString(),
     };
     project.donations.push(projectDonation);
-    project.supporters.push(userID);
+
+    if (
+      !project.supporters.find(
+        (supporterId) => ObjectId(supporterId).toString() === userID
+      )
+    ) {
+      project.supporters.push(userID);
+    }
+
     project.collectedAmount += projectDonation.amount;
 
     const user = await User.findById(userID);
