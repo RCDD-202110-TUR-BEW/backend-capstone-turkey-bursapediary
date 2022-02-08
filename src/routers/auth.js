@@ -42,7 +42,37 @@ routes.get('/me', isLogged, (req, res) => {
     email,
     username,
   };
-  res.json(clientUser);
+  return res.json(clientUser);
 });
+
+routes.get('/github', passport.authenticate('github'));
+
+routes.get(
+  '/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  (req, res) => {
+    const { name, providerId, provider, _id, username } = req.user;
+
+    const userInToken = {
+      id: _id,
+      name,
+      providerId: `${provider}-${providerId}`,
+      username,
+    };
+
+    const token = jwt.sign(userInToken, process.env.SECRET_KEY, {
+      expiresIn: '336h',
+    });
+
+    res.cookie('token', token, {
+      httpOnly: true,
+    });
+
+    res.json({
+      message: 'Auth successful, redirecting....',
+      user: userInToken,
+    });
+  }
+);
 
 module.exports = routes;
