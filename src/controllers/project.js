@@ -1,5 +1,4 @@
 const { ObjectId } = require('mongodb');
-
 const Project = require('../models/project');
 const User = require('../models/user');
 
@@ -57,12 +56,13 @@ const createReview = async (req, res, next) => {
 
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
-    if (
-      project.reviews.find(
-        (review) => ObjectId(review.user).toString() === userID
-      )
-    )
+    const reviewExist = project.reviews.find(
+      (review) => ObjectId(review.user).toString() === userID
+    );
+
+    if (reviewExist) {
       return res.json({ message: 'You already reviewed this project' });
+    }
 
     const review = {
       user: userID,
@@ -130,8 +130,9 @@ const deleteReview = async (req, res, next) => {
       (single) => ObjectId(single._id).toString() === reviewId
     );
 
-    if (reviewIndex === -1)
+    if (reviewIndex === -1) {
       return res.status(404).json({ message: 'Review not found' });
+    }
 
     project.reviews.splice(reviewIndex, 1);
 
