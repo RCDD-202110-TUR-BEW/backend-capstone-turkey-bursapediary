@@ -3,9 +3,7 @@ const Project = require('../models/project');
 const filterProjects = async (req, res) => {
   try {
     const { category } = req.query;
-
     const projects = await Project.find({ 'category.content': category });
-
     return res.json(projects);
   } catch (error) {
     return res.status(400).json(error);
