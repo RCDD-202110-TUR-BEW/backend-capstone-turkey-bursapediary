@@ -67,6 +67,10 @@ const Project = new Schema(
         ref: 'users',
       },
     ],
+    categories: {
+      type: [String],
+      default: [],
+    },
     comments: [Comment],
     reviews: [Review],
     donations: [
