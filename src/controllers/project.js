@@ -2,124 +2,100 @@
 const Project = require('../models/project');
 
 const getAllProjects = async (req, res, next) => {
-  const projects = await Project.find({});
   try {
+    const projects = await Project.find({});
     if (!projects) {
-      const error = new Error('Could not find any Project.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Could not find any project' });
     }
-    res.status(200).json({ projects });
+    res.json({ projects });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(422).json({ message: 'Unable to fetch the projects' });
   }
+  return next();
 };
 
 const getProjectByID = async (req, res, next) => {
   const { id } = req.params;
-  const project = await Project.findById(id);
   try {
+    const project = await Project.findById(id);
     if (!project) {
-      const error = new Error('Could not find Project.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Could not find the project' });
     }
-    res.status(200).json({ project });
+    res.json({ project });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(422).json({ message: 'Unable to fetch the project' });
   }
+  return next();
 };
 
 const getAllComments = async (req, res, next) => {
   const { id } = req.params;
-  const project = await Project.findById(id);
   try {
+    const project = await Project.findById(id);
     if (!project) {
-      const error = new Error('Could not find Project.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Could not find the project' });
     }
-    res.status(200).json({ comments: project.comments });
+    res.json({ comments: project.comments });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(422).json({ message: "Unable to fetch the project's comments" });
   }
+  return next();
 };
 
 const getCommentByID = async (req, res, next) => {
   const { id, commentid } = req.params;
-  const project = await Project.findById(id);
   try {
+    const project = await Project.findById(id);
     if (!project) {
-      const error = new Error('Could not find Project.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Could not find the project' });
     }
-    //
     const comment = project.comments.filter((item) => item._id === commentid);
     if (comment.length < 1) {
-      const error = new Error('Could not find Comment.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({
+        message:
+          'Could not find the comment, either it dose not exist or has been deleted',
+      });
     }
-    res.status(200).json({ comment });
+    res.json({ comment });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(422).json({ message: 'Unable to fetch the comment' });
   }
+  return next();
 };
 
 const getAllReviews = async (req, res, next) => {
   const { id } = req.params;
-  const project = await Project.findById(id);
   try {
+    const project = await Project.findById(id);
     if (!project) {
-      const error = new Error('Could not find Project.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Could not find the project' });
     }
-    res.status(200).json({ reviews: project.reviews });
+    res.json({ reviews: project.reviews });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(422).json({ message: "Unable to fetch the project's reviews" });
   }
+  return next();
 };
 
 const getReviewByID = async (req, res, next) => {
   const { id, reviewid } = req.params;
-  const project = await Project.findById(id);
   try {
+    const project = await Project.findById(id);
     if (!project) {
-      const error = new Error('Could not find Project.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({ message: 'Could not find the project' });
     }
-    //
     const review = project.reviews.filter((item) => item._id === reviewid);
     if (review.length < 1) {
-      const error = new Error('Could not find Review.');
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({
+        message:
+          'Could not find the review, either it dose not exist or has been deleted',
+      });
     }
-    res.status(200).json({ review });
+    res.json({ review });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(422).json({ message: 'Unable to fetch the review' });
   }
+  return next();
 };
 
 module.exports = {

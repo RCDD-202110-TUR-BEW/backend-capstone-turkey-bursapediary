@@ -1,25 +1,27 @@
 const { model, Schema } = require('mongoose');
 
-const Comment = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'users',
-  }, 
-  content : String,
+const Comment = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
+    content: String,
   },
   { timestamps: true }
 );
 
-const Review = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'users',
-  }, 
-  rating: {
-    type: Number,
-    enum : [1, 2, 3, 4, 5,],
-  },
-  content : String,
+const Review = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
+    rating: {
+      type: Number,
+      enum: [1, 2, 3, 4, 5],
+    },
+    content: String,
   },
   { timestamps: true }
 );
