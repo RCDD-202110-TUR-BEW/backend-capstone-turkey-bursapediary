@@ -215,8 +215,6 @@ const createComment = async (req, res, next) => {
   return next();
 };
 
-const isNotEmpty = (field) => !!field;
-
 const updateComment = async (req, res, next) => {
   const { id, commentId } = req.params;
   const { content } = req.body;
