@@ -1,5 +1,14 @@
 {
   "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "SessionKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
+  },
   "info": {
     "version": "1.0.0",
     "title": "Bursapediary API",
@@ -74,18 +83,9 @@
     },
     "/api/users/logout": {
       "post": {
+        "security": [{ "SessionKey": [] }],
         "tags": ["Users"],
         "summary": "Log a user out",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/RegisterBody"
-              }
-            }
-          }
-        },
         "responses": {
           "201": {
             "description": "Created"
@@ -107,6 +107,7 @@
         }
       ],
       "get": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Get a user by id",
         "tags": ["Users"],
         "parameters": [
@@ -133,6 +134,7 @@
         }
       },
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Update a user",
         "tags": ["Users"],
         "parameters": [
@@ -162,6 +164,7 @@
         }
       },
       "delete": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Delete user by id",
         "tags": ["Users"],
         "parameters": [
@@ -199,6 +202,7 @@
     },
     "/api/users": {
       "post": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Create new user",
         "tags": ["Users"],
         "requestBody": {
