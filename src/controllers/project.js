@@ -1,5 +1,4 @@
 const { ObjectId } = require('mongodb');
-
 const Project = require('../models/project');
 const User = require('../models/user');
 
@@ -16,9 +15,15 @@ const supportProject = async (req, res, next) => {
     if (
       !isApplicableAmount(project.amount, project.collectedAmount, userAmount)
     ) {
+      if (project.amount - project.collectedAmount === 0)
+        return res.status(422).json({
+          message:
+            'This project is done with funding, thank you for your interest',
+        });
       return res.status(422).json({
-        message:
-          'Your requested amount can not be bigger than the remaining amount for this project',
+        message: `Your requested amount can not be bigger than the ${
+          project.amount - project.collectedAmount
+        } remaining amount for this project`,
       });
     }
     const projectDonation = {
@@ -27,7 +32,15 @@ const supportProject = async (req, res, next) => {
       timestamp: new Date().toUTCString(),
     };
     project.donations.push(projectDonation);
-    project.supporters.push(userID);
+
+    if (
+      !project.supporters.find(
+        (supporterId) => ObjectId(supporterId).toString() === userID
+      )
+    ) {
+      project.supporters.push(userID);
+    }
+
     project.collectedAmount += projectDonation.amount;
 
     const user = await User.findById(userID);
@@ -44,6 +57,107 @@ const supportProject = async (req, res, next) => {
     return res.json(project);
   } catch (error) {
     res.status(422).json({ message: 'Unable to support project' });
+  }
+  return next();
+};
+
+const createReview = async (req, res, next) => {
+  const { id } = req.params;
+  const { userID, rating, content } = req.body;
+
+  try {
+    const project = await Project.findOne({ _id: id });
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const reviewExist = project.reviews.find(
+      (review) => ObjectId(review.user).toString() === userID
+    );
+
+    if (reviewExist) {
+      return res.json({ message: 'You already reviewed this project' });
+    }
+
+    const review = {
+      user: userID,
+      rating,
+      content,
+    };
+
+    project.reviews.push(review);
+
+    await project.save();
+
+    res.json({
+      message: 'Review created successfully',
+      reviews: project.reviews,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to create review' });
+  }
+  return next();
+};
+
+const isNotEmpty = (field) => !!field;
+
+const updateReview = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const { rating, content } = req.body;
+
+  try {
+    const project = await Project.findById(id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const review = project.reviews.find(
+      // eslint-disable-next-line no-underscore-dangle
+      (single) => ObjectId(single._id).toString() === reviewId
+    );
+
+    if (!review) return res.status(404).json({ message: 'Review not found' });
+
+    review.rating = isNotEmpty(rating) ? rating : review.rating;
+    review.content = isNotEmpty(content) ? content : review.content;
+
+    await project.save();
+
+    res.json({
+      message: 'Review updated successfully',
+      reviews: project.reviews,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to update review' });
+  }
+  return next();
+};
+
+const deleteReview = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+
+  try {
+    const project = await Project.findById(id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const reviewIndex = project.reviews.findIndex(
+      // eslint-disable-next-line no-underscore-dangle
+      (single) => ObjectId(single._id).toString() === reviewId
+    );
+
+    if (reviewIndex === -1) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    project.reviews.splice(reviewIndex, 1);
+
+    await project.save();
+
+    res.json({
+      message: 'Review deleted successfully',
+      reviews: project.reviews,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to update review' });
   }
   return next();
 };
@@ -272,6 +386,9 @@ const getProjectProfile = async (req, res, next) => {
 };
 
 module.exports = {
+  createReview,
+  updateReview,
+  deleteReview,
   getProjectProfile,
   supportProject,
   getProjectSupporters,
