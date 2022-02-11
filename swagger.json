@@ -23,7 +23,60 @@
   ],
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "paths": {},
+  "paths": {
+    "/api/projects/filter/{category}": {
+      "get": {
+        "summary": "Filter Projects by the given category",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "description": "Project Category",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/projects/search/{search}": {
+      "get": {
+        "summary": "Search in the projects by {title,description, or categories} by the given search query",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "path",
+            "required": true,
+            "description": " search query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "id": {
       "properties": {
