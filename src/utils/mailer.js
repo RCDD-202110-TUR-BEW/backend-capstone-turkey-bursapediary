@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   port: 465,
   auth: {
     user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASS,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
@@ -28,9 +28,9 @@ const sendEmail = (user) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      logger.info(error.message);
+      return logger.info(error.message);
     }
-    logger.info(info.response);
+    return logger.info(info.response);
   });
 };
 
