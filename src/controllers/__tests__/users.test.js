@@ -216,6 +216,101 @@ describe('User API End Points', () => {
           });
         expect(spyOnSign).toHaveBeenCalledTimes(1);
       });
+      describe('Username validation', () => {
+        it('Should throw error with message wrong username or password', async () => {
+          fakeUser = {
+            username: 'yaman1',
+            password: '1P@assword1',
+          };
+          const res = await request(app)
+            .post('/users/login')
+            .set('Content-Type', 'application/json')
+            .send(fakeUser)
+            .expect('Content-Type', /json/)
+            .expect(400);
+          expect(res.body.message).toContain('wrong username or password');
+        });
+        it('Should throw error with message Username should not be empty', async () => {
+          fakeUser = {
+            username: null,
+            email: 'sdyaasdman@yaman.com',
+            password: '1P@assword',
+            confirmPassword: '1P@assword',
+          };
+          const res = await request(app)
+            .post('/users/login')
+            .set('Content-Type', 'application/json')
+            .send(fakeUser)
+            .expect('Content-Type', /json/)
+            .expect(400);
+
+          expect(res.text).toContain('Username should not be empty');
+        });
+
+        it('Should throw error with message Username must be at least 4 characters long', async () => {
+          fakeUser = {
+            username: 'yam',
+            email: 'sdyaasdman@yaman.com',
+            password: '1P@assword',
+            confirmPassword: '1P@assword',
+          };
+          const res = await request(app)
+            .post('/users/login')
+            .set('Content-Type', 'application/json')
+            .send(fakeUser)
+            .expect('Content-Type', /json/)
+            .expect(400);
+
+          expect(res.text).toContain(
+            'Username must be at least 4 characters long'
+          );
+        });
+      });
+
+      describe('Password validation', () => {
+        it('Should throw error with message wrong username or password', async () => {
+          fakeUser = {
+            username: 'yaman',
+            password: '1P@assword1qw',
+          };
+          const res = await request(app)
+            .post('/users/login')
+            .set('Content-Type', 'application/json')
+            .send(fakeUser)
+            .expect('Content-Type', /json/)
+            .expect(400);
+          expect(res.body.message).toContain('wrong username or password');
+        });
+        it('Should throw error with message Password must be at least 5 characters long', async () => {
+          fakeUser = {
+            username: 'yam an',
+            password: 'r24S',
+          };
+          const res = await request(app)
+            .post('/users/login')
+            .set('Content-Type', 'application/json')
+            .send(fakeUser)
+            .expect('Content-Type', /json/)
+            .expect(400);
+          expect(res.text).toContain(
+            'Password must be at least 5 characters long'
+          );
+        });
+
+        it('Should throw error with message Password should not be empty', async () => {
+          fakeUser = {
+            username: 'yam an',
+            password: null,
+          };
+          const res = await request(app)
+            .post('/users/register')
+            .set('Content-Type', 'application/json')
+            .send(fakeUser)
+            .expect('Content-Type', /json/)
+            .expect(400);
+          expect(res.text).toContain('Password should not be empty');
+        });
+      });
     });
     describe('POST /logout', () => {
       it('Should logout', async () => {

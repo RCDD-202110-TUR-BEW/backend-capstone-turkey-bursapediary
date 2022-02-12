@@ -9,10 +9,14 @@ routes.post(
   check('username', 'Username must be at least 4 characters long')
     .notEmpty()
     .withMessage('Username should not be empty')
+    .bail()
+    .isLength({ min: 4 })
     .bail(),
   check('password', 'Password must be at least 5 characters long')
     .notEmpty()
     .withMessage('Password should not be empty')
+    .bail()
+    .isLength({ min: 5 })
     .bail(),
   UserController.login
 );
