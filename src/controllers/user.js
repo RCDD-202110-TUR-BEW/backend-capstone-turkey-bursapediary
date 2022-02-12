@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const Project = require('../models/project');
 
 const login = async (req, res) => {
   try {
@@ -60,10 +59,10 @@ const register = async (req, res) => {
     const usedUser = await User.findOne({ username });
 
     if (usedUser) {
-      return res.status(400).json({ message: 'username already taken' });
+      return res.status(400).json({ message: 'Username already taken' });
     }
     const passwordHashed = await bcrypt.hash(password, 10);
-    const newUser = User.create({
+    const newUser = await User.create({
       name,
       username,
       password: passwordHashed,
