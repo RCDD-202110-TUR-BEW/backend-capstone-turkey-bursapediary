@@ -14,6 +14,7 @@ const PORT = process.env.NODE_LOCAL_PORT;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 app.use(cookieParser(process.env.SECRET_KEY));
 app.use(encryptCookieNodeMiddleware(process.env.SECRET_KEY));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
