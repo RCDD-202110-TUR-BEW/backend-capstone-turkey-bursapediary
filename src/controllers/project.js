@@ -75,7 +75,9 @@ const createReview = async (req, res, next) => {
     );
 
     if (reviewExist) {
-      return res.json({ message: 'You already reviewed this project' });
+      return res
+        .status(422)
+        .json({ message: 'You already reviewed this project' });
     }
 
     const review = {
@@ -323,7 +325,7 @@ const getProjectProfile = async (req, res, next) => {
 
     project.reviews.forEach(async (review) => {
       const single = {
-        username: review.user.username,
+        username: review.user?.username,
         rating: review.rating,
         content: review.content,
         date: review.createdAt,
@@ -335,7 +337,7 @@ const getProjectProfile = async (req, res, next) => {
 
     project.comments.forEach(async (comment) => {
       const single = {
-        username: comment.user.username,
+        username: comment.user?.username,
         content: comment.content,
         date: comment.createdAt,
       };
@@ -383,6 +385,11 @@ const getProjectProfile = async (req, res, next) => {
   return next();
 };
 
+const getProjects = async (req, res) => {
+  const projects = await Project.find({});
+  res.json(projects);
+};
+
 module.exports = {
   createReview,
   updateReview,
@@ -393,4 +400,5 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
+  getProjects,
 };

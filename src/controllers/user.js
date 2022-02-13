@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const Project = require('../models/project');
 
 const login = async (req, res) => {
   try {
@@ -142,7 +141,8 @@ const getUser = async (req, res) => {
     }
     return res.status(200).json(user);
   } catch (e) {
-    return res.status(400).json(e);
+    return e;
+    // return res.status(400).json(e); // BUG Cannot set headers after they are sent to the client
   }
 };
 

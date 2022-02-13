@@ -4,6 +4,7 @@ const project = require('../controllers/project');
 
 const router = express.Router();
 
+router.get('/', project.getProjects);
 router.put('/:id/support', project.supportProject);
 router.get('/:id/supporters', project.getProjectSupporters);
 router.post('/:id/comments', project.createComment);
