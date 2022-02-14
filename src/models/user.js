@@ -50,6 +50,14 @@ const User = new Schema(
         _id: false,
       },
     ],
+    provider: {
+      type: String,
+      default: 'classic',
+    },
+    providerId: {
+      type: String,
+      unique: true,
+    },
   },
   { timestamps: true }
 );
