@@ -1,0 +1,219 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Bursapediary API",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    },
+    {
+      "name": "Projects",
+      "description": "Projects endpoints"
+    }
+  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/projects/filter/{category}": {
+      "get": {
+        "summary": "Filter Projects by the given category",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "description": "Project Category",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/projects/search/{search}": {
+      "get": {
+        "summary": "Search in the projects by {title,description, or categories} by the given search query",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "path",
+            "required": true,
+            "description": " search query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "id": {
+      "properties": {
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "user": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "content": "string"
+    },
+    "Review": {
+      "user": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "rating": {
+        "type": "number"
+      },
+      "content": "string"
+    },
+    "Donation": {
+      "amount": {
+        "type": "number"
+      },
+      "userID": {
+        "type": "string"
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": false
+        },
+        "email": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "Users": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "required": true
+        },
+        "amount": {
+          "type": "number",
+          "required": true
+        },
+        "collectedAmount": {
+          "type": "number",
+          "required": true,
+          "default": 0
+        },
+        "isDone": {
+          "type": "boolean",
+          "required": true,
+          "default": false
+        },
+        "isExpired": {
+          "type": "boolean",
+          "required": true,
+          "default": false
+        },
+        "owners": {
+          "type": "array",
+          "additionalProperties": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "supporters": {
+          "type": "array",
+          "additionalProperties": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "comments": {
+          "type": "array",
+          "additionalProperties": {
+            "$ref": "#/definitions/Comment"
+          }
+        },
+        "reviews": {
+          "type": "array",
+          "additionalProperties": {
+            "$ref": "#/definitions/Review"
+          }
+        },
+        "donations": {
+          "type": "array",
+          "additionalProperties": {
+            "$ref": "#/definitions/Donation"
+          }
+        }
+      }
+    },
+    "Projects": {
+      "type": "object",
+      "properties": {
+        "projects": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Project"
+          }
+        }
+      }
+    }
+  }
+}
