@@ -48,7 +48,7 @@ const updateProject = async (req, res) => {
             project.collectedAmount = donations
         const newDonation = {
             amount: donation.amount,
-            "userID": mongoose.Types.ObjectId(donation.userID),
+            userID: mongoose.Types.ObjectId(donation.userID),
             timestamp: mongoose.Types.Date(donation.timestamp)
         }
         project.donations.push(newDonation)
@@ -74,14 +74,16 @@ const doneProject = async (req, res) => {
             project.save()
             res.json({
                 isDone:false,
-            });
+            })
+            res.status(404).json({message: 'This project did not reach the required donation amount yet'});
 
         } else {
             project.isDone = true
             project.save()
             res.json({
                isDone:true,
-            });
+            })
+            res.status(200).json({message: 'This project reached the required donation amount'});
         }
 
 
