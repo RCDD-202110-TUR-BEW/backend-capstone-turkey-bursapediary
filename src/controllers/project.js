@@ -1,75 +1,111 @@
 
-const models = require("../models/project-models");
-const user = models.user;
-const projects = models.projects;
+const Project = require("../models/project");
 const mongoose = require("mongoose");
 
 
 
 const createProject = async (req, res) => {
-    try{
-        const { username, password, email, project } = req.body;
+    try {
+        const { comment, review, project, user } = req.body;
 
-        const userCheck = user.findOne(
-            {
-                "username": username,
-                "email": email,
-                "password": password
-            });
-        console.log(userCheck);
-        const newProjects = new projects({
+        const newProjects = new Project({
             "title": project.title,
             "image": project.image,
             "description": project.description,
-            "category": project.category,
+            "category": [],
             "donation": project.donation,
-            "user": mongoose.Types.ObjectId(userCheck._id)
+            "amount": project.amount,
+            "collectedAmount": project.collectedAmount,
+            "comments": [],
+            "review": [],
+            "owners":project.owners,
+            "supporters": project.supporters,
+            "user": mongoose.Types.ObjectId(user._id)
         });
 
+        newProjects.category.push(...project.categories)
         newProjects.save();
-    } catch(err) {
-        console.log(err);
-        res.status(422).json("could not create project");
+        res.status(200).json("Project created successfully")
+    } catch (err) {
+        res.status(422).json("Could not create project");
     }
 };
 
 
-const updateProject = async(req, res) => {
+const updateProject = async (req, res) => {
     const { title, image, description, category, donation } = req.body;
+    try {
+        const project = await Project.findById(req.params.id);
 
-    await projects.updateOne(
-        {
-            _id: req.params.id
-        }, 
-        {$set: {
-            "title": title, 
-            "image": image,
-            "description": description,
-            "category": category,
-            "donation": donation,
-        }});
-};
+        if (!project) return res.status(404).json({ message: 'Project not found' });
 
-const doneProject = async(req, res) => {
-    const { donation, project } = req.body;
+            project.title = title,
+            project.image = image,
+            project.description = description,
+            project.category = category,
+            project.donation = donation,
+            project.supporters = supporters
+            project.collectedAmount = donations
+        const newDonation = {
+            amount: donation.amount,
+            "userID": mongoose.Types.ObjectId(donation.userID),
+            timestamp: mongoose.Types.Date(donation.timestamp)
+        }
+        project.donations.push(newDonation)
+        await project.save();
 
-    await projects.updateOne(
-        {
-            _id: req.params.id
-        }, 
-        {$set: {
-            "donation": donation,
-            "project": isDone,
-            
-        }});
-};
-
-
-const removeProject = async(req, res) => {
-    await projects.deleteOne(
-        {
-        _id: req.params.id
+        res.json({
+            message: 'Project updated successfully',
         });
+    } catch (error) {
+        res.status(422).json({ message: 'Unable to update project' });
+    }
+};
+
+const doneProject = async (req, res) => {
+    const { donation, project } = req.body;
+    try {
+        const project = await Project.findById(req.params.id);
+
+        if (!project) return res.status(404).json({ message: 'Project not found' });
+
+        if (donation.amount + project.collectedAmount <= project.amount) {
+            project.isDone = false
+            project.save()
+            res.json({
+                isDone:false,
+            });
+
+        } else {
+            project.isDone = true
+            project.save()
+            res.json({
+               isDone:true,
+            });
+        }
+
+
+    } catch (error) {
+        res.status(422).json({ message: 'Unable to update project' });
+    }
+    
+};
+
+
+
+const removeProject = async (req, res) => {
+    
+    try {
+        const project = await Project.deleteOne({_id:req.params.id});
+
+        if (!project) return res.status(404).json({ message: 'Project not found' });
+
+        res.json({
+            message: 'Project removed successfully',
+        });
+    } catch (error) {
+        res.status(422).json({ message: 'Unable to remove project' });
+    }
 };
 
 
