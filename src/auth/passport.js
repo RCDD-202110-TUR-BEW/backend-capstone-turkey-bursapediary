@@ -9,9 +9,9 @@ const User = require('../models/user');
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID.toString(),
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET.toString(),
-      callbackURL: process.env.GOOGLE_CALL_BACK_URL.toString(),
+      clientID: process.env.GOOGLE_CLIENT_ID || 'GOOGLE_CLIENT_ID',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'GOOGLE_CLIENT_SECRET',
+      callbackURL: process.env.GOOGLE_CALL_BACK_URL || 'GOOGLE_CALL_BACK_URL',
     },
     async (accessToken, refreshToken, profile, callBack) => {
       const user = await User.findOne({ providerId: profile.id });
@@ -38,9 +38,9 @@ passport.use(
 passport.use(
   new GitHubStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID.toString(),
-      clientSecret: process.env.GITHUB_CLIENT_SECRET.toString(),
-      callbackURL: process.env.GITHUB_CALL_BACK_URL.toString(),
+      clientID: process.env.GITHUB_CLIENT_ID || 'GITHUB_CLIENT_ID',
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || 'GITHUB_CLIENT_SECRET',
+      callbackURL: process.env.GITHUB_CALL_BACK_URL || 'GITHUB_CALL_BACK_URL',
     },
     async (accessToken, refreshToken, profile, callBack) => {
       const user = await User.findOne({ providerId: profile.id });
