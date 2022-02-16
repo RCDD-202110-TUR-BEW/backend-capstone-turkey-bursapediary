@@ -170,7 +170,8 @@ const getProjectSupporters = async (req, res, next) => {
     const project = await Project.findById(id).populate('supporters');
     const supporters = [];
 
-    if (!project) res.status(404).json({ message: 'Could not find project' });
+    if (!project)
+      return res.status(404).json({ message: 'Could not find project' });
 
     project.supporters.forEach((supporter) => {
       const single = {
