@@ -36,7 +36,7 @@
     "/api/users/login": {
       "post": {
         "tags": ["Users"],
-        "summary": "Log a user in",
+        "summary": "Logs a user in",
         "requestBody": {
           "required": true,
           "content": {
@@ -60,7 +60,7 @@
     "/api/users/register": {
       "post": {
         "tags": ["Users"],
-        "summary": "Register a new user",
+        "summary": "Registers a new user",
         "requestBody": {
           "required": true,
           "content": {
@@ -85,7 +85,7 @@
       "post": {
         "security": [{ "SessionKey": [] }],
         "tags": ["Users"],
-        "summary": "Log a user out",
+        "summary": "Logs a user out",
         "responses": {
           "201": {
             "description": "Created"
@@ -106,43 +106,16 @@
           "type": "string"
         }
       ],
-      "get": {
-        "security": [{ "SessionKey": [] }],
-        "summary": "Get a user by id",
-        "tags": ["Users"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Get a user by id",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
       "put": {
         "security": [{ "SessionKey": [] }],
-        "summary": "Update a user",
+        "summary": "Updates a user",
         "tags": ["Users"],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Update a user",
+            "description": "user ID",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -165,14 +138,14 @@
       },
       "delete": {
         "security": [{ "SessionKey": [] }],
-        "summary": "Delete user by id",
+        "summary": "Deletes user by id",
         "tags": ["Users"],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Delete user by id",
+            "description": "user ID",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -196,34 +169,6 @@
             "schema": {
               "$ref": "#/definitions/id"
             }
-          }
-        }
-      }
-    },
-    "/api/users": {
-      "post": {
-        "security": [{ "SessionKey": [] }],
-        "summary": "Create new user",
-        "tags": ["Users"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "User Created",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
