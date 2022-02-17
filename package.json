@@ -13,7 +13,10 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
     "validate-staged": "lint-staged",
-    "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\""
+    "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\"",
+    "doctor": "clinic doctor --autocannon [ / ] -- node ./src/app.js",
+    "bubble": "clinic bubble --autocannon [ / ] -- node ./src/app.js",
+    "flame": "clinic flame --autocannon [ / ] -- node ./src/app.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
