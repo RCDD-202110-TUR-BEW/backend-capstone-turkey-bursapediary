@@ -10,7 +10,6 @@ const createProject = async (req, res) => {
 
         const newProjects = new Project({
             "title": project.title,
-            "image": project.image,
             "description": project.description,
             "category": [],
             "donation": project.donation,
@@ -33,25 +32,27 @@ const createProject = async (req, res) => {
 
 
 const updateProject = async (req, res) => {
-    const { title, image, description, category, donation } = req.body;
+    const { title, description, category, donation } = req.body;
     try {
         const project = await Project.findById(req.params.id);
 
         if (!project) return res.status(404).json({ message: 'Project not found' });
 
             project.title = title,
-            project.image = image,
             project.description = description,
-            project.category = category,
             project.donation = donation,
             project.supporters = supporters
             project.collectedAmount = donations
+        const newCategory = {
+            category : project.category
+        }
         const newDonation = {
             amount: donation.amount,
             userID: mongoose.Types.ObjectId(donation.userID),
             timestamp: mongoose.Types.Date(donation.timestamp)
         }
         project.donations.push(newDonation)
+        project.categories.push(newCategory)
         await project.save();
 
         res.json({
