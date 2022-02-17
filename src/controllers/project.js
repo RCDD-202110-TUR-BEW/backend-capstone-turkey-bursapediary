@@ -8,6 +8,16 @@ const User = require('../models/user');
 const isApplicableAmount = (amount, collected, requested) =>
   requested <= amount - collected;
 
+const filterProjects = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const projects = await Project.find({ categories: category });
+    return res.json(projects);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
 const isNotEmpty = (field) => !!field;
 
 const getAllProjects = async (req, res, next) => {
@@ -570,6 +580,7 @@ module.exports = {
   getProjectSupporters,
   indexProjects,
   searchIndex,
+  filterProjects,
   supportProject,
   getProjectProfile,
 };

@@ -2,6 +2,9 @@
 /* eslint-disable  no-return-await */
 
 const request = require('supertest');
+const { ObjectId } = require('mongodb');
+
+const projectModel = require('../models/project');
 
 const app = require('../app');
 
@@ -56,8 +59,40 @@ const newReview = {
   content: 'its very bad review now',
   rating: 1,
 };
-
+let TempProjectID = null;
+beforeAll(async () => {
+  const tempProject = await projectModel.create({
+    title: 'temp title',
+    description: 'temp description',
+    amount: 0,
+    categories: ['testing', 'test'],
+  });
+  TempProjectID = tempProject._id;
+});
+afterAll(async () => {
+  await projectModel.findByIdAndDelete(ObjectId(TempProjectID));
+});
 describe('Project Routes', () => {
+  describe('GET Filter', () => {
+    it('Should retrun empty array if no projects matching category', async () => {
+      const res = await request(app)
+        .get('/projects/filter?category=undefinedtestnotrealycategorynotfund')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200);
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body.length).toBeGreaterThanOrEqual(0);
+    });
+    it('Should retrun projects matching category', async () => {
+      const res = await request(app)
+        .get('/projects/filter?category=testing')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200);
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body.length).toBeGreaterThanOrEqual(1);
+    });
+  });
   describe('GET /projects', () => {
     it('Should return all projects from db', async () => {
       const res = await request(app).get(`/projects`);

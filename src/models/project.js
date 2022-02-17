@@ -1,3 +1,4 @@
+/* eslint-disable  no-dupe-keys */
 const { model, Schema } = require('mongoose');
 
 const Comment = new Schema(
@@ -69,6 +70,12 @@ const Project = new Schema(
         ref: 'users',
       },
     ],
+    categories: {
+      type: [String],
+      default: [],
+    },
+    comments: [Comment],
+    reviews: [Review],
     donations: [
       {
         amount: Number,
