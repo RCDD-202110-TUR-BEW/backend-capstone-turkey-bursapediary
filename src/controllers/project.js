@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const { ObjectId } = require('mongodb');
 const Project = require('../models/project');
 const User = require('../models/user');
@@ -5,184 +6,66 @@ const User = require('../models/user');
 const isApplicableAmount = (amount, collected, requested) =>
   requested <= amount - collected;
 
-const supportProject = async (req, res, next) => {
-  const { id } = req.params;
-  const { userAmount, userID } = req.body;
-  try {
-    const project = await Project.findById(id);
-    if (!project)
-      return res.status(404).json({ message: 'Could not find project' });
-    if (
-      !isApplicableAmount(project.amount, project.collectedAmount, userAmount)
-    ) {
-      if (project.amount - project.collectedAmount === 0)
-        return res.status(422).json({
-          message:
-            'This project is done with funding, thank you for your interest',
-        });
-      return res.status(422).json({
-        message: `Your requested amount can not be bigger than the ${
-          project.amount - project.collectedAmount
-        } remaining amount for this project`,
-      });
-    }
-    const projectDonation = {
-      amount: userAmount,
-      userID,
-      timestamp: new Date().toUTCString(),
-    };
-    project.donations.push(projectDonation);
-
-    if (
-      !project.supporters.find(
-        (supporterId) => ObjectId(supporterId).toString() === userID
-      )
-    ) {
-      project.supporters.push(userID);
-    }
-
-    project.collectedAmount += projectDonation.amount;
-
-    const user = await User.findById(userID);
-
-    const userDonation = {
-      amount: userAmount,
-      // eslint-disable-next-line no-underscore-dangle
-      projectID: project._id,
-      timestamp: projectDonation.timestamp,
-    };
-    user.donations.push(userDonation);
-    await project.save();
-    await user.save();
-    return res.json(project);
-  } catch (error) {
-    res.status(422).json({ message: 'Unable to support project' });
-  }
-  return next();
-};
-
-const createReview = async (req, res, next) => {
-  const { id } = req.params;
-  const { userID, rating, content } = req.body;
-
-  try {
-    const project = await Project.findOne({ _id: id });
-
-    if (!project) return res.status(404).json({ message: 'Project not found' });
-
-    const reviewExist = project.reviews.find(
-      (review) => ObjectId(review.user).toString() === userID
-    );
-
-    if (reviewExist) {
-      return res.json({ message: 'You already reviewed this project' });
-    }
-
-    const review = {
-      user: userID,
-      rating,
-      content,
-    };
-
-    project.reviews.push(review);
-
-    await project.save();
-
-    res.json({
-      message: 'Review created successfully',
-      reviews: project.reviews,
-    });
-  } catch (error) {
-    res.status(422).json({ message: 'Unable to create review' });
-  }
-  return next();
-};
-
 const isNotEmpty = (field) => !!field;
 
-const updateReview = async (req, res, next) => {
-  const { id, reviewId } = req.params;
-  const { rating, content } = req.body;
-
+const getAllProjects = async (req, res, next) => {
   try {
-    const project = await Project.findById(id);
-
-    if (!project) return res.status(404).json({ message: 'Project not found' });
-
-    const review = project.reviews.find(
-      // eslint-disable-next-line no-underscore-dangle
-      (single) => ObjectId(single._id).toString() === reviewId
-    );
-
-    if (!review) return res.status(404).json({ message: 'Review not found' });
-
-    review.rating = isNotEmpty(rating) ? rating : review.rating;
-    review.content = isNotEmpty(content) ? content : review.content;
-
-    await project.save();
-
-    res.json({
-      message: 'Review updated successfully',
-      reviews: project.reviews,
-    });
-  } catch (error) {
-    res.status(422).json({ message: 'Unable to update review' });
-  }
-  return next();
-};
-
-const deleteReview = async (req, res, next) => {
-  const { id, reviewId } = req.params;
-
-  try {
-    const project = await Project.findById(id);
-
-    if (!project) return res.status(404).json({ message: 'Project not found' });
-
-    const reviewIndex = project.reviews.findIndex(
-      // eslint-disable-next-line no-underscore-dangle
-      (single) => ObjectId(single._id).toString() === reviewId
-    );
-
-    if (reviewIndex === -1) {
-      return res.status(404).json({ message: 'Review not found' });
+    const projects = await Project.find({});
+    if (!projects) {
+      return res.status(404).json({ message: 'Could not find any project' });
     }
-
-    project.reviews.splice(reviewIndex, 1);
-
-    await project.save();
-
-    res.json({
-      message: 'Review deleted successfully',
-      reviews: project.reviews,
-    });
-  } catch (error) {
-    res.status(422).json({ message: 'Unable to update review' });
+    res.json({ projects });
+  } catch (err) {
+    res.status(422).json({ message: 'Unable to fetch the projects' });
   }
   return next();
 };
 
-const getProjectSupporters = async (req, res, next) => {
+const getProjectByID = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const project = await Project.findById(id).populate('supporters');
-    const supporters = [];
+    const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ message: 'Could not find the project' });
+    }
+    res.json({ project });
+  } catch (err) {
+    res.status(422).json({ message: 'Unable to fetch the project' });
+  }
+  return next();
+};
 
-    if (!project) res.status(404).json({ message: 'Could not find project' });
+const getAllComments = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ message: 'Could not find the project' });
+    }
+    res.json({ comments: project.comments });
+  } catch (err) {
+    res.status(422).json({ message: "Unable to fetch the project's comments" });
+  }
+  return next();
+};
 
-    project.supporters.forEach((supporter) => {
-      const single = {
-        name: supporter.name,
-        amount: supporter.donations.find(
-          (donation) => donation.projectID === id
-        ).amount,
-      };
-      supporters.push(single);
-    });
-
-    return await Promise.all(supporters);
-  } catch (error) {
-    res.status(422).json({ message: 'Unable to find supporters' });
+const getCommentByID = async (req, res, next) => {
+  const { id, commentId } = req.params;
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ message: 'Could not find the project' });
+    }
+    const comment = project.comments.filter((item) => item._id === commentId);
+    if (comment.length < 1) {
+      return res.status(404).json({
+        message:
+          'Could not find the comment, either it dose not exist or has been deleted',
+      });
+    }
+    res.json({ comment });
+  } catch (err) {
+    res.status(422).json({ message: 'Unable to fetch the comment' });
   }
   return next();
 };
@@ -225,7 +108,6 @@ const updateComment = async (req, res, next) => {
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
     const comment = project.comments.find(
-      // eslint-disable-next-line no-underscore-dangle
       (single) => ObjectId(single._id).toString() === commentId
     );
 
@@ -271,6 +153,221 @@ const deleteComment = async (req, res, next) => {
     });
   } catch (error) {
     res.status(422).json({ message: 'Unable to update comment' });
+  }
+  return next();
+};
+
+const getAllReviews = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ message: 'Could not find the project' });
+    }
+    res.json({ reviews: project.reviews });
+  } catch (err) {
+    res.status(422).json({ message: "Unable to fetch the project's reviews" });
+  }
+  return next();
+};
+
+const getReviewByID = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      return res.status(404).json({ message: 'Could not find the project' });
+    }
+    const review = project.reviews.filter((item) => item._id === reviewId);
+    if (review.length < 1) {
+      return res.status(404).json({
+        message:
+          'Could not find the review, either it dose not exist or has been deleted',
+      });
+    }
+    res.json({ review });
+  } catch (err) {
+    res.status(422).json({ message: 'Unable to fetch the review' });
+  }
+  return next();
+};
+
+const createReview = async (req, res, next) => {
+  const { id } = req.params;
+  const { userID, rating, content } = req.body;
+
+  try {
+    const project = await Project.findOne({ _id: id });
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const reviewExist = project.reviews.find(
+      (review) => ObjectId(review.user).toString() === userID
+    );
+
+    if (reviewExist) {
+      return res
+        .status(422)
+        .json({ message: 'You already reviewed this project' });
+    }
+
+    const review = {
+      user: userID,
+      rating,
+      content,
+    };
+
+    project.reviews.push(review);
+
+    await project.save();
+
+    res.json({
+      message: 'Review created successfully',
+      reviews: project.reviews,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to create review' });
+  }
+  return next();
+};
+
+const updateReview = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const { rating, content } = req.body;
+
+  try {
+    const project = await Project.findById(id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const review = project.reviews.find(
+      (single) => ObjectId(single._id).toString() === reviewId
+    );
+
+    if (!review) return res.status(404).json({ message: 'Review not found' });
+
+    review.rating = isNotEmpty(rating) ? rating : review.rating;
+    review.content = isNotEmpty(content) ? content : review.content;
+
+    await project.save();
+
+    res.json({
+      message: 'Review updated successfully',
+      reviews: project.reviews,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to update review' });
+  }
+  return next();
+};
+
+const deleteReview = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+
+  try {
+    const project = await Project.findById(id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    const reviewIndex = project.reviews.findIndex(
+      (single) => ObjectId(single._id).toString() === reviewId
+    );
+
+    if (reviewIndex === -1) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    project.reviews.splice(reviewIndex, 1);
+
+    await project.save();
+
+    res.json({
+      message: 'Review deleted successfully',
+      reviews: project.reviews,
+    });
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to update review' });
+  }
+  return next();
+};
+
+const getProjectSupporters = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findById(id).populate('supporters');
+    const supporters = [];
+
+    if (!project)
+      return res.status(404).json({ message: 'Could not find project' });
+
+    project.supporters.forEach((supporter) => {
+      const single = {
+        name: supporter.name,
+        amount: supporter.donations.find(
+          (donation) => donation.projectID === id
+        ).amount,
+      };
+      supporters.push(single);
+    });
+
+    return await Promise.all(supporters);
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to find supporters' });
+  }
+  return next();
+};
+
+const supportProject = async (req, res, next) => {
+  const { id } = req.params;
+  const { userAmount, userID } = req.body;
+  try {
+    const project = await Project.findById(id);
+    if (!project)
+      return res.status(404).json({ message: 'Could not find project' });
+    if (
+      !isApplicableAmount(project.amount, project.collectedAmount, userAmount)
+    ) {
+      if (project.amount - project.collectedAmount === 0)
+        return res.status(422).json({
+          message:
+            'This project is done with funding, thank you for your interest',
+        });
+      return res.status(422).json({
+        message: `Your requested amount can not be bigger than the ${
+          project.amount - project.collectedAmount
+        } remaining amount for this project`,
+      });
+    }
+    const projectDonation = {
+      amount: userAmount,
+      userID,
+      timestamp: new Date().toUTCString(),
+    };
+    project.donations.push(projectDonation);
+
+    if (
+      !project.supporters.find(
+        (supporterId) => ObjectId(supporterId).toString() === userID
+      )
+    ) {
+      project.supporters.push(userID);
+    }
+
+    project.collectedAmount += projectDonation.amount;
+
+    const user = await User.findById(userID);
+
+    const userDonation = {
+      amount: userAmount,
+      projectID: project._id,
+      timestamp: projectDonation.timestamp,
+    };
+    user.donations.push(userDonation);
+    await project.save();
+    await user.save();
+    return res.json(project);
+  } catch (error) {
+    res.status(422).json({ message: 'Unable to support project' });
   }
   return next();
 };
@@ -323,7 +420,7 @@ const getProjectProfile = async (req, res, next) => {
 
     project.reviews.forEach(async (review) => {
       const single = {
-        username: review.user.username,
+        username: review.user?.username,
         rating: review.rating,
         content: review.content,
         date: review.createdAt,
@@ -335,7 +432,7 @@ const getProjectProfile = async (req, res, next) => {
 
     project.comments.forEach(async (comment) => {
       const single = {
-        username: comment.user.username,
+        username: comment.user?.username,
         content: comment.content,
         date: comment.createdAt,
       };
@@ -383,14 +480,25 @@ const getProjectProfile = async (req, res, next) => {
   return next();
 };
 
+const getProjects = async (req, res) => {
+  const projects = await Project.find({});
+  res.json(projects);
+};
+
 module.exports = {
-  createReview,
-  updateReview,
-  deleteReview,
-  getProjectProfile,
-  supportProject,
-  getProjectSupporters,
+  getAllProjects,
+  getProjectByID,
+  getAllComments,
+  getCommentByID,
   createComment,
   updateComment,
   deleteComment,
+  getAllReviews,
+  getReviewByID,
+  createReview,
+  updateReview,
+  deleteReview,
+  getProjectSupporters,
+  supportProject,
+  getProjectProfile,
 };

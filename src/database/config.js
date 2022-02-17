@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 const logger = require('../utils/logger');
 
-const URI = process.env.DB_URI;
+let URI;
+
+if (process.env.NODE_ENV === 'test') {
+  URI = process.env.TEST_DB_URI;
+} else {
+  URI = process.env.DB_URI;
+}
 
 const DBConnection = () => {
   mongoose.connect(URI, { useNewUrlParser: true });
