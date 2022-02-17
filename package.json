@@ -6,9 +6,9 @@
   "author": "Ammar-64",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/app.js",
-    "test": "yarn validate && jest --passWithNoTests",
-    "test:dev": "mocha 'tests/**/*.js' --recursive --timeout 60000 --exit",
+    "start": "export NODE_ENV=dev && nodemon src/app.js",
+    "test": "yarn validate && jest --no-cache --runInBand --forceExit --passWithNoTests",
+    "test:dev": "mocha 'src/**/*.js' --recursive --timeout 60000 --exit",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^14.2.0",
     "elasticsearch": "^16.7.2",
@@ -34,12 +36,11 @@
     "pino": "^7.6.4",
     "pino-pretty": "^7.5.0",
     "sinon": "^12.0.1",
+    "supertest": "^6.2.2",
     "swagger-ui-express": "^4.3.0",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
-    "chai": "^4.3.5",
-    "chai-http": "^4.3.0",
     "eslint": "^8.7.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-node": "^4.1.0",
