@@ -5,6 +5,8 @@ const router = express.Router();
 const project = require('../controllers/project');
 
 router.get('/', project.getAllProjects);
+router.get('/filter', project.filterProjects);
+
 router.get('/:id', project.getProjectByID);
 router.get('/:id/comments/', project.getAllComments);
 router.get('/:id/comments/:commentId', project.getCommentByID);
