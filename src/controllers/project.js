@@ -480,11 +480,6 @@ const getProjectProfile = async (req, res, next) => {
   return next();
 };
 
-const getProjects = async (req, res) => {
-  const projects = await Project.find({});
-  res.json(projects);
-};
-
 module.exports = {
   getAllProjects,
   getProjectByID,
