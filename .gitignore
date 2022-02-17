@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 /.husky
+/.clinic
 .env
 yarn.lock
 package-lock.json
