@@ -55,6 +55,8 @@ const Project = new Schema(
       required: [true, 'isExpired is required'],
       default: false,
     },
+    comments: [Comment],
+    reviews: [Review],
     owners: [
       {
         type: Schema.Types.ObjectId,
@@ -67,8 +69,6 @@ const Project = new Schema(
         ref: 'users',
       },
     ],
-    comments: [Comment],
-    reviews: [Review],
     donations: [
       {
         amount: Number,
