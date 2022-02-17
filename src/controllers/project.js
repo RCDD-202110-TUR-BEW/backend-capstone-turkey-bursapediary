@@ -16,21 +16,6 @@ const filterProjects = async (req, res) => {
   }
 };
 
-const searchProjects = async (req, res) => {
-  try {
-    const { search } = req.query;
-    const projects = await Project.find({
-      $or: [
-        { categories: { $elemMatch: { $regex: search } } },
-        { title: { $elemMatch: { $regex: search } } },
-        { description: { $elemMatch: { $regex: search } } },
-      ],
-    });
-    return res.json(projects);
-  } catch (error) {
-    return res.status(400).json(error);
-  }
-};
 const isNotEmpty = (field) => !!field;
 
 const getAllProjects = async (req, res, next) => {
