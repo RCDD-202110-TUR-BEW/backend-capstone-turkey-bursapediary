@@ -17,7 +17,22 @@ jobs:
       matrix:
         node-version: [16.x]
         mongodb-version: [4.2]
-
+    env:
+      NODE_LOCAL_PORT: 3000
+      DB_URI: mongodb://127.0.0.1:27017/bursapediary
+      SECRET_KEY: SECRET_KEY
+      BASE_URL: http://localhost:3000
+      EMAIL: newtestingwebdev@gmail.com
+      EMAIL_PASSWORD: Toorzx00x
+      GOOGLE_CLIENT_ID: 453165040736-bmbu3gu76476lplpaa4ipcrgg0ii2hp2.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      GOOGLE_CALL_BACK_URL: http://localhost:3000/auth/google/callback
+      GITHUB_CLIENT_ID: 35e152e0b4fb843f2d30
+      GITHUB_CLIENT_SECRET: 10a6535b8d7b9d5bed39f81802cb36d059cae5f5
+      GITHUB_CALL_BACK_URL: http://localhost:3000/auth/github/callback
+      ELASTICSEARCH_URL: http://127.0.0.1:9200
+      TEST_DB_URI: mongodb://127.0.0.1:27017/bursapediaryTest
+      NODE_ENV: test
     steps:
       - name: Git checkout
         uses: actions/checkout@v1
