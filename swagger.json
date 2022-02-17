@@ -119,33 +119,8 @@
             "schema": {
               "$ref": "#/definitions/id"
             }
-    "/api/projects/filter/{category}": {
-      "get": {
-        "summary": "Filter Projects by the given category",
-        "tags": ["Projects"],
-        "parameters": [
-          {
-            "name": "category",
-            "in": "path",
-            "required": true,
-            "description": "Project Category",
-            "type": "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          }
-        }
+        ]
       },
       "delete": {
         "security": [{ "SessionKey": [] }],
@@ -180,25 +155,20 @@
             "schema": {
               "$ref": "#/definitions/id"
             }
-              "$ref": "#/definitions/Projects"
-            }
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
     },
-    "/api/projects/search/{search}": {
+    "/api/projects/filter/{category}": {
       "get": {
-        "summary": "Search in the projects by {title,description, or categories} by the given search query",
+        "summary": "Filter Projects by the given category",
         "tags": ["Projects"],
         "parameters": [
           {
-            "name": "search",
+            "name": "category",
             "in": "path",
             "required": true,
-            "description": " search query",
+            "description": "Project Category",
             "type": "string"
           }
         ],
@@ -206,11 +176,14 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Projects"
+              "$ref": "#/definitions/id"
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
           }
         }
       }
