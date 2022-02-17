@@ -30,7 +30,7 @@ const searchProjects = async (req, res) => {
   } catch (error) {
     return res.status(400).json(error);
   }
-
+};
 const isNotEmpty = (field) => !!field;
 
 const getAllProjects = async (req, res, next) => {
@@ -525,7 +525,6 @@ module.exports = {
   deleteReview,
   getProjectSupporters,
   filterProjects,
-  searchProjects,
   supportProject,
-  getProjectProfile
+  getProjectProfile,
 };
