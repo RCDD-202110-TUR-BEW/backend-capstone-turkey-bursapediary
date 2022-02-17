@@ -14,7 +14,6 @@
     "format": "node ./skip-scripts.js || prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "node ./skip-scripts.js || yarn format && yarn lint",
     "validate-staged": "node ./skip-scripts.js || lint-staged",
-    "postinstall": "node ./skip-scripts.js || husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\"",
     "doctor": "clinic doctor --autocannon [ / ] -- node ./src/app.js",
     "bubble": "clinic bubble --autocannon [ / ] -- node ./src/app.js",
     "flame": "clinic flame --autocannon [ / ] -- node ./src/app.js"
