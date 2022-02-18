@@ -3,7 +3,9 @@
     "browser": true,
     "commonjs": true,
     "es2021": true,
-    "node": true
+    "node": true,
+    "jest": true,
+    "mocha": true
   },
   "extends": [
     "airbnb",
@@ -21,6 +23,8 @@
     "no-console": "warn",
     "func-names": "off",
     "no-process-exit": "off",
-    "class-methods-use-this": "off"
-  }
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": "off"
+  },
+  "ignorePatterns": ["src/views"]
 }

@@ -1,20 +1,38 @@
+/* eslint-disable max-classes-per-file */
 const mongoose = require('mongoose');
 const logger = require('../utils/logger');
 
-const URI = process.env.DB_URI;
+class PrivateSingleton {
+  constructor() {
+    const db = mongoose.connection;
 
-const DBConnection = () => {
-  mongoose.connect(URI, { useNewUrlParser: true });
+    if (process.env.NODE_ENV === 'test') {
+      this.URI = process.env.TEST_DB_URI;
+    } else {
+      this.URI = process.env.DB_URI;
+    }
+    mongoose.connect(this.URI, { useNewUrlParser: true });
 
-  const db = mongoose.connection;
+    db.once('open', () => {
+      logger.info(`Database connected: ${this.URI}`);
+    });
 
-  db.once('open', () => {
-    logger.info(`Database connected: ${URI}`);
-  });
+    db.on('error', (err) => {
+      logger.info(`Database connection error: ${err}`);
+    });
+  }
+}
+class SingletonMongoDB {
+  constructor() {
+    throw new Error('Use Singleton.getInstance()');
+  }
 
-  db.on('error', (err) => {
-    logger.info(`Database connection error: ${err}`);
-  });
-};
+  static getInstance() {
+    if (!SingletonMongoDB.instance) {
+      SingletonMongoDB.instance = new PrivateSingleton();
+    }
+    return SingletonMongoDB.instance;
+  }
+}
 
-module.exports = DBConnection;
+module.exports = SingletonMongoDB;
