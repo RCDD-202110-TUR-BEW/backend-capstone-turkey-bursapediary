@@ -74,8 +74,6 @@ const Project = new Schema(
       type: [String],
       default: [],
     },
-    comments: [Comment],
-    reviews: [Review],
     donations: [
       {
         amount: Number,
