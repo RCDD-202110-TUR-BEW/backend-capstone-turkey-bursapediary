@@ -1,10 +1,22 @@
-/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+/* eslint-disable no-underscore-dangle */
 const { ObjectId } = require('mongodb');
+const elasticsearch = require('elasticsearch');
+
 const Project = require('../models/project');
 const User = require('../models/user');
 
 const isApplicableAmount = (amount, collected, requested) =>
   requested <= amount - collected;
+
+const filterProjects = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const projects = await Project.find({ categories: category });
+    return res.json(projects);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
 
 const isNotEmpty = (field) => !!field;
 
@@ -480,9 +492,76 @@ const getProjectProfile = async (req, res, next) => {
   return next();
 };
 
-const getProjects = async (req, res) => {
+const client = elasticsearch.Client({
+  host: process.env.ELASTICSEARCH_URL,
+});
+
+const indexProjects = async (req, res) => {
   const projects = await Project.find({});
-  res.json(projects);
+  const responses = [];
+  const exceptions = [];
+
+  await Promise.all([
+    projects.forEach((project) => {
+      try {
+        client.index({
+          index: 'new_projects',
+          type: 'project',
+          body: {
+            id: project._id,
+            title: project.title,
+            description: project.description,
+          },
+        });
+
+        responses.push({
+          message: `Indexing project with id ${project._id} is successful`,
+        });
+      } catch (error) {
+        exceptions.push({
+          message: `Indexing error for project with id ${project._id}`,
+          error,
+        });
+      }
+    }),
+  ]);
+
+  res.json({ responses, exceptions });
+};
+
+const searchIndex = (req, res) => {
+  const { text } = req.query;
+
+  client
+    .search({
+      index: 'new_projects',
+      body: {
+        query: {
+          multi_match: {
+            query: text.trim(),
+            fields: ['title', 'description'],
+          },
+        },
+      },
+    })
+    .then((response) => {
+      const matches = response.hits.hits;
+      const results = [];
+
+      if (matches.length > 0) {
+        for (let i = 0; i < matches.length; i += 1) {
+          results.push({
+            id: matches[i]._source.id,
+            title: matches[i]._source.title,
+            description: matches[i]._source.description,
+            score: matches[i]._score,
+          });
+        }
+        return res.json(results);
+      }
+      return res.json({ message: 'No matches found' });
+    })
+    .catch(() => res.status(500).json({ message: 'Searching match error' }));
 };
 
 module.exports = {
@@ -499,6 +578,9 @@ module.exports = {
   updateReview,
   deleteReview,
   getProjectSupporters,
+  indexProjects,
+  searchIndex,
+  filterProjects,
   supportProject,
   getProjectProfile,
 };
