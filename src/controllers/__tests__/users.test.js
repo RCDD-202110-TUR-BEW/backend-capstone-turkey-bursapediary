@@ -1,4 +1,3 @@
-/* eslint-disable  no-underscore-dangle */
 /* eslint-disable  no-return-await */
 
 const request = require('supertest');

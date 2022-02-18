@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const { ObjectId } = require('mongodb');
 const elasticsearch = require('elasticsearch');
 
@@ -148,7 +147,6 @@ const deleteComment = async (req, res, next) => {
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
     const commentIndex = project.comments.findIndex(
-      // eslint-disable-next-line no-underscore-dangle
       (single) => ObjectId(single._id).toString() === commentId
     );
 
