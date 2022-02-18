@@ -1,5 +1,14 @@
 {
   "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "SessionKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
+  },
   "info": {
     "version": "1.0.0",
     "title": "Bursapediary API",
@@ -318,11 +327,35 @@
         }
       }
     },
-    "RegisterBody": {
-      "type": "object"
-    },
     "LoginBody": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "required": true
+        },
+        "password": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "RegisterBody": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "required": true
+        },
+        "password": {
+          "type": "string",
+          "required": true
+        },
+        "email": {
+          "type": "string",
+          "required": true
+        }
+      }
     }
   }
 }
