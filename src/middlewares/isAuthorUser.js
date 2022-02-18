@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 const isAuthorUser = (object, user, type) => {
   switch (type) {
     case 'user':
