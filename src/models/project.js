@@ -1,4 +1,3 @@
-/* eslint-disable  no-dupe-keys */
 const { model, Schema } = require('mongoose');
 
 const Comment = new Schema(
