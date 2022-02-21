@@ -125,16 +125,16 @@ Bursapediary is a place where people come to find supporters for their dreams, h
 
 ### Database Diagram
 
-![Database](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/database.png)
+![Database](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/database.png)
 
 ### System Architecture Flowchart
-![System](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/system.png)
+![System](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/system.png)
 
 ### OpenAPI Docs
-![Docs](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/docs.png)
+![Docs](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/docs.png)
 
 ### Homepage
-![Homepage](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/homepage.png)
+![Homepage](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/homepage.png)
 
 <!-- GETTING STARTED -->
 ## Getting Started
