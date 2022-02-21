@@ -55,8 +55,14 @@ const Project = new Schema(
       required: [true, 'isExpired is required'],
       default: false,
     },
-    comments: [Comment],
-    reviews: [Review],
+    comments: {
+      type: [Comment],
+      default: [],
+    },
+    reviews: {
+      type: [Review],
+      default: [],
+    },
     owners: [
       {
         type: Schema.Types.ObjectId,

@@ -1,59 +1,39 @@
 const { ObjectId } = require('mongodb');
 const elasticsearch = require('elasticsearch');
-const mongoose = require('mongoose');
 
 const Project = require('../models/project');
 const User = require('../models/user');
 
 const createProject = async (req, res) => {
-  try {
-    const { /* comment, review, //BUG not used */ project, user } = req.body;
+  const { title, description, categories, amount, userId } = req.body;
 
-    const newProjects = new Project({
-      title: project.title,
-      description: project.description,
-      category: [],
-      donation: project.donation,
-      amount: project.amount,
-      collectedAmount: project.collectedAmount,
-      comments: [],
-      review: [],
-      owners: project.owners,
-      supporters: project.supporters,
-      user: mongoose.Types.ObjectId(user._id),
+  try {
+    const project = new Project({
+      title,
+      description,
+      amount,
     });
 
-    newProjects.category.push(...project.categories);
-    newProjects.save();
-    res.status(200).json('Project created successfully');
+    project.owners.push(userId);
+    project.categories.push(...categories);
+    await project.save();
+    return res.status(201).json('Project created successfully');
   } catch (err) {
-    res.status(422).json('Could not create project');
+    return res.status(422).json('Could not create project');
   }
 };
 
 const updateProject = async (req, res) => {
-  const { title, description, /* category //BUG not used */ donation } =
-    req.body;
+  const { title, description, categories } = req.body;
   try {
     const project = await Project.findById(req.params.id);
 
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
-    project.title = title;
-    project.description = description;
-    project.donation = donation;
-    // project.supporters = supporters; //BUG //FIX
-    // project.collectedAmount = donations; //BUG //FIX
-    const newCategory = {
-      category: project.category,
-    };
-    const newDonation = {
-      amount: donation.amount,
-      userID: mongoose.Types.ObjectId(donation.userID),
-      timestamp: mongoose.Types.Date(donation.timestamp),
-    };
-    project.donations.push(newDonation);
-    project.categories.push(newCategory);
+    project.title = title || project.title;
+    project.description = description || project.description;
+
+    project.categories.push(...categories);
     await project.save();
 
     return res.json({
@@ -65,30 +45,23 @@ const updateProject = async (req, res) => {
 };
 
 const doneProject = async (req, res) => {
-  const { donation /* project //BUG same name */ } = req.body;
   try {
     const project = await Project.findById(req.params.id);
 
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
-    if (donation.amount + project.collectedAmount <= project.amount) {
-      project.isDone = false;
-      project.save();
-      res.json({
-        isDone: false,
-      });
-      return res.status(404).json({
+    if (project.collectedAmount !== project.amount) {
+      return res.status(422).json({
         message: 'This project did not reach the required donation amount yet',
       });
     }
+
     project.isDone = true;
-    project.save();
-    res.json({
-      isDone: true,
+    await project.save();
+
+    return res.json({
+      message: 'This project reached the required donation amount',
     });
-    return res
-      .status(200)
-      .json({ message: 'This project reached the required donation amount' });
   } catch (error) {
     return res.status(422).json({ message: 'Unable to update project' });
   }
