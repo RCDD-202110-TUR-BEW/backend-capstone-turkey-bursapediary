@@ -7,6 +7,181 @@
         "in": "header",
         "name": "Authorization"
       }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["username", "email", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "format": "string",
+            "description": "username"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "user email"
+          },
+          "password": {
+            "type": "string",
+            "format": "string",
+            "description": "user password"
+          },
+          "name": {
+            "type": "string",
+            "format": "string",
+            "description": "user name"
+          },
+          "role": {
+            "type": "string",
+            "format": "string",
+            "description": "user role"
+          },
+          "type": {
+            "type": "string",
+            "format": "string",
+            "description": "user account type"
+          },
+          "projects": {
+            "type": "array",
+            "format": "array",
+            "description": "user projects list"
+          },
+          "donations": {
+            "type": "array",
+            "format": "array",
+            "description": "user donations list"
+          },
+          "provider": {
+            "type": "string",
+            "format": "string",
+            "description": "provider name"
+          },
+          "providerId": {
+            "type": "string",
+            "format": "string",
+            "description": "provider id"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "required": ["title", "description", "amount"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "format": "string",
+            "description": "project title"
+          },
+          "description": {
+            "type": "string",
+            "format": "string",
+            "description": "project description"
+          },
+          "amount": {
+            "type": "number",
+            "format": "number",
+            "description": "amount need to collect for project"
+          },
+          "collectedAmount": {
+            "type": "number",
+            "format": "number",
+            "description": "amount collected for project"
+          },
+          "isDone": {
+            "type": "boolean",
+            "format": "boolean",
+            "description": "project donation status"
+          },
+          "isExpired": {
+            "type": "boolean",
+            "format": "boolean",
+            "description": "project valid status"
+          },
+          "comments": {
+            "type": "array",
+            "format": "array",
+            "description": "comments list"
+          },
+          "reviews": {
+            "type": "array",
+            "format": "array",
+            "description": "review list"
+          },
+          "owners": {
+            "type": "array",
+            "format": "array",
+            "description": "project owners list"
+          },
+          "supporters": {
+            "type": "array",
+            "format": "array",
+            "description": "project supporters list"
+          },
+          "categories": {
+            "type": "array",
+            "format": "array",
+            "description": "project categories list"
+          },
+          "donations": {
+            "type": "array",
+            "format": "array",
+            "description": "project donations list"
+          }
+        }
+      },
+      "Donation": {
+        "type": "object",
+        "required": ["amount", "userId"],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "number",
+            "description": "amount of donation"
+          },
+          "userId": {
+            "type": "string",
+            "format": "string",
+            "description": "donator user id"
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "format": "string",
+            "description": "comment user id"
+          },
+          "content": {
+            "type": "string",
+            "format": "string",
+            "description": "comment content"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "format": "string",
+            "description": "review user id"
+          },
+          "content": {
+            "type": "string",
+            "format": "string",
+            "description": "review content"
+          },
+          "rating": {
+            "type": "number",
+            "format": "number",
+            "description": "review rating"
+          }
+        }
+      }
     }
   },
   "info": {
@@ -15,6 +190,14 @@
     "description": ""
   },
   "servers": [
+    {
+      "url": "https://bursapediary.com",
+      "description": "Production Domain"
+    },
+    {
+      "url": "https://bursapediary.herokuapp.com",
+      "description": "Production Heroku"
+    },
     {
       "url": "http://localhost:3000",
       "description": "Localhost"
