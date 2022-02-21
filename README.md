@@ -71,6 +71,7 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#demo">Demo Links</a></li>
+        <li><a href="#Screenshots">Screenshots</a></li>
       </ul>
     </li>
     <li>
@@ -119,6 +120,21 @@ Bursapediary is a place where people come to find supporters for their dreams, h
 ### Demo
 
 * Server (backend) link: [![heroku-shield]](https://bursapediary.com)
+
+# Screenshots
+
+### Database Diagram
+
+![Database](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/database.png)
+
+### System Architecture Flowchart
+![System](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/system.png)
+
+### OpenAPI Docs
+![Docs](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/docs.png)
+
+### Homepage
+![Homepage](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/feature/crud_project_endpointv2/src/views/image/homepage.png)
 
 <!-- GETTING STARTED -->
 ## Getting Started
