@@ -81,7 +81,7 @@
       </ul>
     </li>
     <!-- <li><a href="#usage">Usage</a></li> -->
-    <!-- <li><a href="#roadmap">Roadmap</a></li> -->
+    <li><a href="#team">Team</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -187,12 +187,12 @@ main branch for server side (node)
 
 
 
-<!-- USAGE EXAMPLES -->
-<!-- ## Usage
+## Team
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Meet our team members through their GitHub profiles
 
-_For more examples, please refer to the [Documentation](https://example.com)_ -->
+| [<img alt="amr" src="https://avatars.githubusercontent.com/u/26306192?v=4" width="115"><br><sub>@amr-nash</sub>](https://github.com/amr-nash) | [<img alt="coruh" src="https://avatars.githubusercontent.com/u/31990323?v=4" width="115"><br><sub>@corcit</sub>](https://github.com/corcit) | [<img alt="eda" src="https://avatars.githubusercontent.com/u/64930295?v=4" width="115"><br><sub>@edaguler00</sub>](https://github.com/edaguler00) | [<img alt="halit" src="https://avatars.githubusercontent.com/u/61846570?v=4" width="115"><br><sub>@halitbatur</sub>](https://github.com/halitbatur) | [<img alt="souhaib" src="https://media-exp1.licdn.com/dms/image/C4E03AQFH6nVSpVOLjw/profile-displayphoto-shrink_400_400/0/1628344852578?e=1651104000&v=beta&t=Wh7WE6shOg1uRd8Aar4sgz7jcbNJ9LDsZkaqmheocCM" width="115"><br><sub>@felmez</sub>](https://github.com/Iseluin) | [<img alt="yaman" src="https://avatars.githubusercontent.com/u/58285821?v=4" width="115"><br><sub>@yaman3bd</sub>](https://github.com/yaman3bd) |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 
 
 
