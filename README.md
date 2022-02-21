@@ -47,15 +47,15 @@
     <a href="#getting-started"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="#" target="_blank">View Demo</a>
+    <a href="https://bursapediary.com" target="_blank">View Demo</a>
     ·
     <a href="#">View GIFs</a>
     ·
     <a href="#" target="_blank">Demonstration Video</a>
     ·
-    <a href="#">Report Bug</a>
+    <a href="https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/issues">Report Bug</a>
     ·
-    <a href="#">Request Feature</a>
+    <a href="https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/issues">Request Feature</a>
   </p>
 </p>
 
