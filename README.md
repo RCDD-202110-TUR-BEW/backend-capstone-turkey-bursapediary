@@ -133,7 +133,6 @@ What is brew ?? (See: <a href="https://en.wikipedia.org/wiki/Homebrew_(package_m
 
 ### Installation
 
-This repo has two different branches for different use 
 ```
 main branch for server side (node)
 ```
@@ -149,7 +148,7 @@ main branch for server side (node)
    on main branch
    'yarn / npm i'
    ```
-3. Create environement variables
+3. Create environment variables
   ```sh
   if (you will serve on localhost) {
     on main directory create a copy of .env.example and rename to .env file 
@@ -227,8 +226,8 @@ Bursapediary Team
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[license-shield]: https://img.shields.io/github/license/username/repository.svg?style=flat-square
-[license-url]: https://github.com/username/repository/blob/master/LICENSE
+[license-shield]: https://img.shields.io/github/license/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary.svg?style=flat-square
+[license-url]: https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/master/LICENSE
 [freecodecamp-shield]: https://img.shields.io/badge/-freecodecamp-black?style=flat-square&logo=freecodecamp
 [freecodecamp-url]: https://www.freecodecamp.org/
 [google-shield]: https://img.shields.io/badge/google-4285F4?style=for-the-badge&logo=google&logoColor=white
