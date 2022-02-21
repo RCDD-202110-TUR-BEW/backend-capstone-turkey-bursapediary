@@ -68,6 +68,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#features">Features</a></li>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#demo">Demo Links</a></li>
       </ul>
@@ -94,6 +95,20 @@
 ## About The Project
 
 Bursapediary is a place where people come to find supporters for their dreams, here, you can find individuals, NGOs, or officials willing to help you fund your path to your goals, get that degree, do that technical training, or join that sports tournament. on this portal, you can see and search by various categories for specific funding or bursaries and apply to them/contact the donators and explain your exact needs, or if you can’t find the thing you looking for, you can post a funding request explaining your needs and when someone is willing to help, you will be informed by Email/SMS. All you need to do, sign up as a 'reinforcer' or an 'achiever' and post everything about the carrier or the idea you want to support if you are a reinforcer or the goal you have financial need to achieve if you are an achiever. use the search bar to find similar ideas and wait for Bursapediary to find you a fit!
+
+## Features
+
+- List projects
+- CRUD operations for projects 
+- CRUD operations for users
+- Support projects
+- Review on projects
+- Comment on projects
+- Filter projects by category
+- Search projects indices by text
+- Register/Login
+  - Allow Google, Github, Classic
+- Middleware for authors and admins
 
 ### Built With
 
