@@ -134,7 +134,7 @@ Bursapediary is a place where people come to find supporters for their dreams, h
 ![Docs](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/docs.png)
 
 ### Homepage
-![Homepage](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/homepage.png)
+![Homepage](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/d2f0f0a837b6a40b7a8781846446c83ea0992b73/src/views/image/homepage.png)
 
 <!-- GETTING STARTED -->
 ## Getting Started
