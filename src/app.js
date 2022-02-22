@@ -10,7 +10,7 @@ const swaggerDocument = require('../swagger.json');
 
 const app = express();
 
-const PORT = process.env.NODE_LOCAL_PORT;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', router);
 
 app.listen(PORT, () => {
-  logger.info(`Server listening on http://localhost:${PORT}`);
+  logger.info(`Server listening on ${process.env.BASE_URL}:${PORT}`);
   DBConnection();
 });
 
