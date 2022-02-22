@@ -127,7 +127,7 @@ Bursapediary is a place where people come to find supporters for their dreams, h
 
 ![Database](https://user-images.githubusercontent.com/14183741/155191770-a41d1cb1-d619-421b-aac0-ca22106afea4.png)
 
-### System Architecture Flowchart
+### System Design Flowchart
 ![System](https://user-images.githubusercontent.com/14183741/155191821-fcc65cf5-1d6c-49ef-93c7-c313618797cb.png)
 
 ### OpenAPI Docs
@@ -136,7 +136,7 @@ Bursapediary is a place where people come to find supporters for their dreams, h
 ### Homepage
 ![Homepage](https://user-images.githubusercontent.com/14183741/155191813-986b29b0-8025-4719-8845-34c83e91d730.png)
 
-### Performance monitoring and benchmarking
+### Performance Monitoring and Benchmarking
 ![Performance](https://user-images.githubusercontent.com/14183741/153859236-de8d92b7-ba2b-4b53-80ff-548b6574f0ec.png)
 ![Performance](https://user-images.githubusercontent.com/14183741/153859295-8ae577ba-1c4b-4289-83b0-af1afae1f996.png)
 ![Performance](https://user-images.githubusercontent.com/14183741/153859327-ba875871-a252-4166-862d-ba00f40c3b09.png)
