@@ -6,7 +6,10 @@ const project = require('../controllers/project');
 
 router.get('/', project.getAllProjects);
 router.get('/filter', project.filterProjects);
-
+router.post('/', project.createProject);
+router.put('/:id', project.updateProject);
+router.put('/:id/finish', project.doneProject);
+router.delete('/:id', project.removeProject);
 router.get('/:id', project.getProjectByID);
 router.get('/:id/comments/', project.getAllComments);
 router.get('/:id/comments/:commentId', project.getCommentByID);

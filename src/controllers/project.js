@@ -4,6 +4,83 @@ const elasticsearch = require('elasticsearch');
 const Project = require('../models/project');
 const User = require('../models/user');
 
+const createProject = async (req, res) => {
+  const { title, description, categories, amount, userId } = req.body;
+
+  try {
+    const project = new Project({
+      title,
+      description,
+      amount,
+    });
+
+    project.owners.push(userId);
+    project.categories.push(...categories);
+    await project.save();
+    return res.status(201).json('Project created successfully');
+  } catch (err) {
+    return res.status(422).json('Could not create project');
+  }
+};
+
+const updateProject = async (req, res) => {
+  const { title, description, categories } = req.body;
+  try {
+    const project = await Project.findById(req.params.id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    project.title = title || project.title;
+    project.description = description || project.description;
+
+    project.categories.push(...categories);
+    await project.save();
+
+    return res.json({
+      message: 'Project updated successfully',
+    });
+  } catch (error) {
+    return res.status(422).json({ message: 'Unable to update project' });
+  }
+};
+
+const doneProject = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    if (project.collectedAmount !== project.amount) {
+      return res.status(422).json({
+        message: 'This project did not reach the required donation amount yet',
+      });
+    }
+
+    project.isDone = true;
+    await project.save();
+
+    return res.json({
+      message: 'This project reached the required donation amount',
+    });
+  } catch (error) {
+    return res.status(422).json({ message: 'Unable to update project' });
+  }
+};
+
+const removeProject = async (req, res) => {
+  try {
+    const project = await Project.deleteOne({ _id: req.params.id });
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    return res.json({
+      message: 'Project removed successfully',
+    });
+  } catch (error) {
+    return res.status(422).json({ message: 'Unable to remove project' });
+  }
+};
+
 const isApplicableAmount = (amount, collected, requested) =>
   requested <= amount - collected;
 
@@ -565,6 +642,10 @@ const searchIndex = (req, res) => {
 module.exports = {
   getAllProjects,
   getProjectByID,
+  createProject,
+  updateProject,
+  doneProject,
+  removeProject,
   getAllComments,
   getCommentByID,
   createComment,
