@@ -59,10 +59,10 @@ const register = async (req, res) => {
     const usedUser = await User.findOne({ username });
 
     if (usedUser) {
-      return res.status(400).json({ message: 'username already taken' });
+      return res.status(400).json({ message: 'Username already taken' });
     }
     const passwordHashed = await bcrypt.hash(password, 10);
-    const newUser = User.create({
+    const newUser = await User.create({
       name,
       username,
       password: passwordHashed,
@@ -123,29 +123,6 @@ const getUserProfile = async (req, res, next) => {
   return next();
 };
 
-const createUser = async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    return res.status(201).json(user);
-  } catch (e) {
-    return res.status(400).json(e);
-  }
-};
-
-const getUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).json({ message: '404 Not found' });
-    }
-    return res.status(200).json(user);
-  } catch (e) {
-    return e;
-    // return res.status(400).json(e); // BUG Cannot set headers after they are sent to the client
-  }
-};
-
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -177,8 +154,6 @@ module.exports = {
   register,
   logout,
   getUserProfile,
-  createUser,
-  getUser,
   updateUser,
   deleteUser,
 };

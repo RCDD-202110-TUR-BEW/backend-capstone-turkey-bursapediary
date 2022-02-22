@@ -1,10 +1,98 @@
-/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const { ObjectId } = require('mongodb');
+const elasticsearch = require('elasticsearch');
+
 const Project = require('../models/project');
 const User = require('../models/user');
 
+const createProject = async (req, res) => {
+  const { title, description, categories, amount, userId } = req.body;
+
+  try {
+    const project = new Project({
+      title,
+      description,
+      amount,
+    });
+
+    project.owners.push(userId);
+    project.categories.push(...categories);
+    await project.save();
+    return res.status(201).json('Project created successfully');
+  } catch (err) {
+    return res.status(422).json('Could not create project');
+  }
+};
+
+const updateProject = async (req, res) => {
+  const { title, description, categories } = req.body;
+  try {
+    const project = await Project.findById(req.params.id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    project.title = title || project.title;
+    project.description = description || project.description;
+
+    project.categories.push(...categories);
+    await project.save();
+
+    return res.json({
+      message: 'Project updated successfully',
+    });
+  } catch (error) {
+    return res.status(422).json({ message: 'Unable to update project' });
+  }
+};
+
+const doneProject = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    if (project.collectedAmount !== project.amount) {
+      return res.status(422).json({
+        message: 'This project did not reach the required donation amount yet',
+      });
+    }
+
+    project.isDone = true;
+    await project.save();
+
+    return res.json({
+      message: 'This project reached the required donation amount',
+    });
+  } catch (error) {
+    return res.status(422).json({ message: 'Unable to update project' });
+  }
+};
+
+const removeProject = async (req, res) => {
+  try {
+    const project = await Project.deleteOne({ _id: req.params.id });
+
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    return res.json({
+      message: 'Project removed successfully',
+    });
+  } catch (error) {
+    return res.status(422).json({ message: 'Unable to remove project' });
+  }
+};
+
 const isApplicableAmount = (amount, collected, requested) =>
   requested <= amount - collected;
+
+const filterProjects = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const projects = await Project.find({ categories: category });
+    return res.json(projects);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
 
 const isNotEmpty = (field) => !!field;
 
@@ -136,7 +224,6 @@ const deleteComment = async (req, res, next) => {
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
     const commentIndex = project.comments.findIndex(
-      // eslint-disable-next-line no-underscore-dangle
       (single) => ObjectId(single._id).toString() === commentId
     );
 
@@ -480,9 +567,85 @@ const getProjectProfile = async (req, res, next) => {
   return next();
 };
 
+const client = elasticsearch.Client({
+  host: process.env.ELASTICSEARCH_URL,
+});
+
+const indexProjects = async (req, res) => {
+  const projects = await Project.find({});
+  const responses = [];
+  const exceptions = [];
+
+  await Promise.all([
+    projects.forEach((project) => {
+      try {
+        client.index({
+          index: 'new_projects',
+          type: 'project',
+          body: {
+            id: project._id,
+            title: project.title,
+            description: project.description,
+          },
+        });
+
+        responses.push({
+          message: `Indexing project with id ${project._id} is successful`,
+        });
+      } catch (error) {
+        exceptions.push({
+          message: `Indexing error for project with id ${project._id}`,
+          error,
+        });
+      }
+    }),
+  ]);
+
+  res.json({ responses, exceptions });
+};
+
+const searchIndex = (req, res) => {
+  const { text } = req.query;
+
+  client
+    .search({
+      index: 'new_projects',
+      body: {
+        query: {
+          multi_match: {
+            query: text.trim(),
+            fields: ['title', 'description'],
+          },
+        },
+      },
+    })
+    .then((response) => {
+      const matches = response.hits.hits;
+      const results = [];
+
+      if (matches.length > 0) {
+        for (let i = 0; i < matches.length; i += 1) {
+          results.push({
+            id: matches[i]._source.id,
+            title: matches[i]._source.title,
+            description: matches[i]._source.description,
+            score: matches[i]._score,
+          });
+        }
+        return res.json(results);
+      }
+      return res.json({ message: 'No matches found' });
+    })
+    .catch(() => res.status(500).json({ message: 'Searching match error' }));
+};
+
 module.exports = {
   getAllProjects,
   getProjectByID,
+  createProject,
+  updateProject,
+  doneProject,
+  removeProject,
   getAllComments,
   getCommentByID,
   createComment,
@@ -494,6 +657,9 @@ module.exports = {
   updateReview,
   deleteReview,
   getProjectSupporters,
+  indexProjects,
+  searchIndex,
+  filterProjects,
   supportProject,
   getProjectProfile,
 };

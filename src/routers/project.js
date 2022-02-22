@@ -5,6 +5,11 @@ const router = express.Router();
 const project = require('../controllers/project');
 
 router.get('/', project.getAllProjects);
+router.get('/filter', project.filterProjects);
+router.post('/', project.createProject);
+router.put('/:id', project.updateProject);
+router.put('/:id/finish', project.doneProject);
+router.delete('/:id', project.removeProject);
 router.get('/:id', project.getProjectByID);
 router.get('/:id/comments/', project.getAllComments);
 router.get('/:id/comments/:commentId', project.getCommentByID);
@@ -19,5 +24,7 @@ router.delete('/:id/reviews/:reviewId', project.deleteReview);
 router.get('/:id/supporters', project.getProjectSupporters);
 router.put('/:id/support', project.supportProject);
 router.get('/:id/profile', project.getProjectProfile);
+router.post('/index', project.indexProjects);
+router.get('/search', project.searchIndex);
 
 module.exports = router;

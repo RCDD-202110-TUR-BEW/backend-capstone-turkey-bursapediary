@@ -23,6 +23,8 @@
     "no-console": "warn",
     "func-names": "off",
     "no-process-exit": "off",
-    "class-methods-use-this": "off"
-  }
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": "off"
+  },
+  "ignorePatterns": ["src/views"]
 }
