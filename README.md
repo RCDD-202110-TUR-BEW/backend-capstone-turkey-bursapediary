@@ -47,15 +47,15 @@
     <a href="#getting-started"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="#" target="_blank">View Demo</a>
+    <a href="https://bursapediary.com" target="_blank">View Demo</a>
     ·
     <a href="#">View GIFs</a>
     ·
     <a href="#" target="_blank">Demonstration Video</a>
     ·
-    <a href="#">Report Bug</a>
+    <a href="https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/issues">Report Bug</a>
     ·
-    <a href="#">Request Feature</a>
+    <a href="https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/issues">Request Feature</a>
   </p>
 </p>
 
@@ -68,8 +68,10 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#features">Features</a></li>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#demo">Demo Links</a></li>
+        <li><a href="#Screenshots">Screenshots</a></li>
       </ul>
     </li>
     <li>
@@ -80,7 +82,7 @@
       </ul>
     </li>
     <!-- <li><a href="#usage">Usage</a></li> -->
-    <!-- <li><a href="#roadmap">Roadmap</a></li> -->
+    <li><a href="#team">Team</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -95,6 +97,20 @@
 
 Bursapediary is a place where people come to find supporters for their dreams, here, you can find individuals, NGOs, or officials willing to help you fund your path to your goals, get that degree, do that technical training, or join that sports tournament. on this portal, you can see and search by various categories for specific funding or bursaries and apply to them/contact the donators and explain your exact needs, or if you can’t find the thing you looking for, you can post a funding request explaining your needs and when someone is willing to help, you will be informed by Email/SMS. All you need to do, sign up as a 'reinforcer' or an 'achiever' and post everything about the carrier or the idea you want to support if you are a reinforcer or the goal you have financial need to achieve if you are an achiever. use the search bar to find similar ideas and wait for Bursapediary to find you a fit!
 
+## Features
+
+- List projects
+- CRUD operations for projects 
+- CRUD operations for users
+- Support projects
+- Review on projects
+- Comment on projects
+- Filter projects by category
+- Search projects indices by text
+- Register/Login
+  - Allow Google, Github, Classic
+- Middleware for authors and admins
+
 ### Built With
 
 * [![mongodb-shield]][mongodb-url]
@@ -104,6 +120,21 @@ Bursapediary is a place where people come to find supporters for their dreams, h
 ### Demo
 
 * Server (backend) link: [![heroku-shield]](https://bursapediary.com)
+
+# Screenshots
+
+### Database Diagram
+
+![Database](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/database.png)
+
+### System Architecture Flowchart
+![System](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/system.png)
+
+### OpenAPI Docs
+![Docs](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/docs.png)
+
+### Homepage
+![Homepage](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/d2f0f0a837b6a40b7a8781846446c83ea0992b73/src/views/image/homepage.png)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -133,7 +164,6 @@ What is brew ?? (See: <a href="https://en.wikipedia.org/wiki/Homebrew_(package_m
 
 ### Installation
 
-This repo has two different branches for different use 
 ```
 main branch for server side (node)
 ```
@@ -149,7 +179,7 @@ main branch for server side (node)
    on main branch
    'yarn / npm i'
    ```
-3. Create environement variables
+3. Create environment variables
   ```sh
   if (you will serve on localhost) {
     on main directory create a copy of .env.example and rename to .env file 
@@ -173,12 +203,12 @@ main branch for server side (node)
 
 
 
-<!-- USAGE EXAMPLES -->
-<!-- ## Usage
+## Team
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Meet our team members through their GitHub profiles
 
-_For more examples, please refer to the [Documentation](https://example.com)_ -->
+| [<img alt="amr" src="https://avatars.githubusercontent.com/u/26306192?v=4" width="115"><br><sub>@amr-nash</sub>](https://github.com/amr-nash) | [<img alt="coruh" src="https://avatars.githubusercontent.com/u/31990323?v=4" width="115"><br><sub>@corcit</sub>](https://github.com/corcit) | [<img alt="eda" src="https://avatars.githubusercontent.com/u/64930295?v=4" width="115"><br><sub>@edaguler00</sub>](https://github.com/edaguler00) | [<img alt="halit" src="https://avatars.githubusercontent.com/u/61846570?v=4" width="115"><br><sub>@halitbatur</sub>](https://github.com/halitbatur) | [<img alt="souhaib" src="https://media-exp1.licdn.com/dms/image/C4E03AQFH6nVSpVOLjw/profile-displayphoto-shrink_400_400/0/1628344852578?e=1651104000&v=beta&t=Wh7WE6shOg1uRd8Aar4sgz7jcbNJ9LDsZkaqmheocCM" width="115"><br><sub>@felmez</sub>](https://github.com/felmez) | [<img alt="yaman" src="https://avatars.githubusercontent.com/u/58285821?v=4" width="115"><br><sub>@yaman3bd</sub>](https://github.com/yaman3bd) |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 
 
 
@@ -227,8 +257,8 @@ Bursapediary Team
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[license-shield]: https://img.shields.io/github/license/username/repository.svg?style=flat-square
-[license-url]: https://github.com/username/repository/blob/master/LICENSE
+[license-shield]: https://img.shields.io/github/license/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary.svg?style=flat-square
+[license-url]: https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/blob/master/LICENSE
 [freecodecamp-shield]: https://img.shields.io/badge/-freecodecamp-black?style=flat-square&logo=freecodecamp
 [freecodecamp-url]: https://www.freecodecamp.org/
 [google-shield]: https://img.shields.io/badge/google-4285F4?style=for-the-badge&logo=google&logoColor=white
