@@ -216,7 +216,7 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/api/users/login": {
+    "/users/login": {
       "post": {
         "tags": ["Users"],
         "summary": "Logs a user in",
@@ -240,7 +240,7 @@
         }
       }
     },
-    "/api/users/register": {
+    "/users/register": {
       "post": {
         "tags": ["Users"],
         "summary": "Registers a new user",
@@ -264,7 +264,7 @@
         }
       }
     },
-    "/api/users/logout": {
+    "/users/logout": {
       "post": {
         "security": [{ "SessionKey": [] }],
         "tags": ["Users"],
@@ -279,7 +279,37 @@
         }
       }
     },
-    "/api/users/{id}": {
+    "/users/{username}": {
+      "parameters": [
+        {
+          "name": "username",
+          "in": "path",
+          "required": true,
+          "description": "username",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "security": [{ "SessionKey": [] }],
+        "tags": ["Users"],
+        "summary": "Get user profile by username",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity response"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
       "parameters": [
         {
           "name": "id",
@@ -342,7 +372,50 @@
         }
       }
     },
-    "/api/projects/filter/{category}": {
+    "/projects": {
+      "get": {
+        "security": [{ "SessionKey": [] }],
+        "tags": ["Projects"],
+        "summary": "List all projects",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity response"
+          }
+        }
+      },
+      "post": {
+        "security": [{ "SessionKey": [] }],
+        "tags": ["Projects"],
+        "summary": "Create new project",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity response"
+          }
+        }
+      }
+    },
+    "/projects/filter/{category}": {
       "get": {
         "summary": "Filter Projects by the given category",
         "tags": ["Projects"],
@@ -355,6 +428,486 @@
             "type": "string"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get project by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update project by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete project by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/finish": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "summary": "Change project donation status to completed by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/comments": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "List project comments by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create comment on project by id",
+        "tags": ["Projects"],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/comments/{commentId}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        },
+        {
+          "name": "commentId",
+          "in": "path",
+          "required": true,
+          "description": "comment id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "List project single comment by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update project single comment by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete project single comment by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/reviews": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "List project reviews by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create review on project by id",
+        "tags": ["Projects"],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/review/{reviewId}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        },
+        {
+          "name": "reviewId",
+          "in": "path",
+          "required": true,
+          "description": "review id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "List project single review by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update project single review by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete project single review by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/supporters": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "List project supporters by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/support": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "summary": "Make donation on project by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{id}/profile": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "project id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Generate project profile by id",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/index": {
+      "post": {
+        "summary": "Index projects to elasticsearch client",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      }
+    },
+    "/projects/search/{text}": {
+      "parameters": [
+        {
+          "name": "text",
+          "in": "path",
+          "required": true,
+          "description": "Search string",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Searched indexed projects with elasticsearch",
+        "tags": ["Projects"],
         "responses": {
           "200": {
             "description": "OK",
