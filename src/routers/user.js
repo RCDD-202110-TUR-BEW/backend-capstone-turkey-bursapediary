@@ -1,6 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 const UserController = require('../controllers/user');
+const { isLogged } = require('../middlewares/isLogged');
 
 const routes = express.Router();
 
@@ -56,8 +57,8 @@ routes.post(
 );
 
 routes.post('/logout', UserController.logout);
-routes.get('/:username', UserController.getUserProfile);
-routes.put('/:id', UserController.updateUser);
-routes.delete('/:id', UserController.deleteUser);
+routes.get('/:username', isLogged, UserController.getUserProfile);
+routes.put('/:id', isLogged, UserController.updateUser);
+routes.delete('/:id', isLogged, UserController.deleteUser);
 
 module.exports = routes;

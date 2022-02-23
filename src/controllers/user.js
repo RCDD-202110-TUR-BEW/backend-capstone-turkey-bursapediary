@@ -83,7 +83,7 @@ const logout = (req, res) => {
   }
 };
 
-const getUserProfile = async (req, res, next) => {
+const getUserProfile = async (req, res) => {
   const { username } = req.params;
   try {
     const user = await User.findOne({ username }).populate({
@@ -116,11 +116,10 @@ const getUserProfile = async (req, res, next) => {
 
     info.donations = donations;
 
-    res.json(info);
+    return res.json(info);
   } catch (error) {
-    res.status(422).json({ message: 'Unable to generate user profile' });
+    return res.status(422).json({ message: 'Unable to generate user profile' });
   }
-  return next();
 };
 
 const updateUser = async (req, res) => {

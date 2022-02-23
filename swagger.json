@@ -5,7 +5,7 @@
       "SessionKey": {
         "type": "apiKey",
         "in": "header",
-        "name": "Authorization"
+        "name": "authorization"
       }
     },
     "schemas": {
@@ -1084,6 +1084,10 @@
           "required": true
         },
         "password": {
+          "type": "string",
+          "required": true
+        },
+        "confirmPassword": {
           "type": "string",
           "required": true
         },

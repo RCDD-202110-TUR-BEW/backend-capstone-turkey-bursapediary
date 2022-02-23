@@ -56,7 +56,7 @@ const User = new Schema(
     },
     providerId: {
       type: String,
-      unique: true,
+      default: 'classic',
     },
   },
   { timestamps: true }
