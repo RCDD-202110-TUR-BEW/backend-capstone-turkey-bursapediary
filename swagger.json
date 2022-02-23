@@ -374,7 +374,6 @@
     },
     "/projects": {
       "get": {
-        "security": [{ "SessionKey": [] }],
         "tags": ["Projects"],
         "summary": "List all projects",
         "responses": {
@@ -473,6 +472,7 @@
         }
       },
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Update project by id",
         "tags": ["Projects"],
         "responses": {
@@ -491,6 +491,7 @@
         }
       },
       "delete": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Delete project by id",
         "tags": ["Projects"],
         "responses": {
@@ -520,6 +521,7 @@
         }
       ],
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Change project donation status to completed by id",
         "tags": ["Projects"],
         "responses": {
@@ -567,6 +569,7 @@
         }
       },
       "post": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Create comment on project by id",
         "tags": ["Projects"],
         "responses": {
@@ -627,6 +630,7 @@
         }
       },
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Update project single comment by id",
         "tags": ["Projects"],
         "responses": {
@@ -645,6 +649,7 @@
         }
       },
       "delete": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Delete project single comment by id",
         "tags": ["Projects"],
         "responses": {
@@ -692,6 +697,7 @@
         }
       },
       "post": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Create review on project by id",
         "tags": ["Projects"],
         "responses": {
@@ -752,6 +758,7 @@
         }
       },
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Update project single review by id",
         "tags": ["Projects"],
         "responses": {
@@ -770,6 +777,7 @@
         }
       },
       "delete": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Delete project single review by id",
         "tags": ["Projects"],
         "responses": {
@@ -799,6 +807,7 @@
         }
       ],
       "get": {
+        "security": [{ "SessionKey": [] }],
         "summary": "List project supporters by id",
         "tags": ["Projects"],
         "responses": {
@@ -828,6 +837,7 @@
         }
       ],
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Make donation on project by id",
         "tags": ["Projects"],
         "responses": {
@@ -857,6 +867,7 @@
         }
       ],
       "get": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Generate project profile by id",
         "tags": ["Projects"],
         "responses": {
@@ -877,6 +888,7 @@
     },
     "/projects/index": {
       "post": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Index projects to elasticsearch client",
         "tags": ["Projects"],
         "responses": {
