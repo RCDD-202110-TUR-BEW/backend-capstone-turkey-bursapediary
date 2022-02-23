@@ -1,5 +1,19 @@
 {
   "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Bursapediary API",
+    "description": "Support and join your favorite projects with pure, friendly and promising platform",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "name": "Bursapediary Team",
+      "url": "https://bursapediary.com/",
+      "email": "newtestingwebdev@gmail.com"
+    }
+  },
   "components": {
     "securitySchemes": {
       "SessionKey": {
@@ -183,11 +197,6 @@
         }
       }
     }
-  },
-  "info": {
-    "version": "1.0.0",
-    "title": "Bursapediary API",
-    "description": ""
   },
   "servers": [
     {
