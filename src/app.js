@@ -1,4 +1,5 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const { encryptCookieNodeMiddleware } = require('encrypt-cookie');
@@ -9,6 +10,7 @@ const logger = require('./utils/logger');
 const swaggerDocument = require('../swagger.json');
 
 const app = express();
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
