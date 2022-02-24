@@ -52,11 +52,9 @@ const User = new Schema(
     ],
     provider: {
       type: String,
-      default: 'classic',
     },
     providerId: {
       type: String,
-      default: 'classic',
     },
   },
   { timestamps: true }

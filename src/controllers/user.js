@@ -67,7 +67,14 @@ const register = async (req, res) => {
       username,
       password: passwordHashed,
       email,
+      provider: `classic-${Buffer.from(Math.random().toString()).toString(
+        'base64'
+      )}`,
+      providerId: `classic-${Buffer.from(Math.random().toString()).toString(
+        'hex'
+      )}`,
     });
+
     return res.status(201).json(newUser);
   } catch (err) {
     return res.status(400).send(err);
