@@ -1,11 +1,11 @@
 const { ObjectId } = require('mongodb');
-const elasticsearch = require('elasticsearch');
+const elastic = require('../elasticsearch');
 
 const Project = require('../models/project');
 const User = require('../models/user');
 
 const createProject = async (req, res) => {
-  const { title, description, categories, amount, userId } = req.body;
+  const { title, description, categories, amount, owners } = req.body;
 
   try {
     const project = new Project({
@@ -14,7 +14,7 @@ const createProject = async (req, res) => {
       amount,
     });
 
-    project.owners.push(userId);
+    project.owners.push(...owners);
     project.categories.push(...categories);
     await project.save();
     return res.status(201).json('Project created successfully');
@@ -96,48 +96,47 @@ const filterProjects = async (req, res) => {
 
 const isNotEmpty = (field) => !!field;
 
-const getAllProjects = async (req, res, next) => {
+const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find({});
     if (!projects) {
       return res.status(404).json({ message: 'Could not find any project' });
     }
-    res.json({ projects });
+    return res.json({ projects });
   } catch (err) {
-    res.status(422).json({ message: 'Unable to fetch the projects' });
+    return res.status(422).json({ message: 'Unable to fetch the projects' });
   }
-  return next();
 };
 
-const getProjectByID = async (req, res, next) => {
+const getProjectByID = async (req, res) => {
   const { id } = req.params;
   try {
     const project = await Project.findById(id);
     if (!project) {
       return res.status(404).json({ message: 'Could not find the project' });
     }
-    res.json({ project });
+    return res.json({ project });
   } catch (err) {
-    res.status(422).json({ message: 'Unable to fetch the project' });
+    return res.status(422).json({ message: 'Unable to fetch the project' });
   }
-  return next();
 };
 
-const getAllComments = async (req, res, next) => {
+const getAllComments = async (req, res) => {
   const { id } = req.params;
   try {
     const project = await Project.findById(id);
     if (!project) {
       return res.status(404).json({ message: 'Could not find the project' });
     }
-    res.json({ comments: project.comments });
+    return res.json({ comments: project.comments });
   } catch (err) {
-    res.status(422).json({ message: "Unable to fetch the project's comments" });
+    return res
+      .status(422)
+      .json({ message: "Unable to fetch the project's comments" });
   }
-  return next();
 };
 
-const getCommentByID = async (req, res, next) => {
+const getCommentByID = async (req, res) => {
   const { id, commentId } = req.params;
   try {
     const project = await Project.findById(id);
@@ -151,14 +150,13 @@ const getCommentByID = async (req, res, next) => {
           'Could not find the comment, either it dose not exist or has been deleted',
       });
     }
-    res.json({ comment });
+    return res.json({ comment });
   } catch (err) {
-    res.status(422).json({ message: 'Unable to fetch the comment' });
+    return res.status(422).json({ message: 'Unable to fetch the comment' });
   }
-  return next();
 };
 
-const createComment = async (req, res, next) => {
+const createComment = async (req, res) => {
   const { id } = req.params;
   const { userID, content } = req.body;
 
@@ -176,17 +174,16 @@ const createComment = async (req, res, next) => {
 
     await project.save();
 
-    res.json({
+    return res.json({
       message: 'Comment created successfully',
       comments: project.comments,
     });
   } catch (error) {
-    res.status(422).json({ message: 'Unable to create comment' });
+    return res.status(422).json({ message: 'Unable to create comment' });
   }
-  return next();
 };
 
-const updateComment = async (req, res, next) => {
+const updateComment = async (req, res) => {
   const { id, commentId } = req.params;
   const { content } = req.body;
 
@@ -205,17 +202,16 @@ const updateComment = async (req, res, next) => {
 
     await project.save();
 
-    res.json({
+    return res.json({
       message: 'Comment updated successfully',
       comments: project.comments,
     });
   } catch (error) {
-    res.status(422).json({ message: 'Unable to update comment' });
+    return res.status(422).json({ message: 'Unable to update comment' });
   }
-  return next();
 };
 
-const deleteComment = async (req, res, next) => {
+const deleteComment = async (req, res) => {
   const { id, commentId } = req.params;
 
   try {
@@ -234,31 +230,31 @@ const deleteComment = async (req, res, next) => {
 
     await project.save();
 
-    res.json({
+    return res.json({
       message: 'Comment deleted successfully',
       comments: project.comments,
     });
   } catch (error) {
-    res.status(422).json({ message: 'Unable to update comment' });
+    return res.status(422).json({ message: 'Unable to update comment' });
   }
-  return next();
 };
 
-const getAllReviews = async (req, res, next) => {
+const getAllReviews = async (req, res) => {
   const { id } = req.params;
   try {
     const project = await Project.findById(id);
     if (!project) {
       return res.status(404).json({ message: 'Could not find the project' });
     }
-    res.json({ reviews: project.reviews });
+    return res.json({ reviews: project.reviews });
   } catch (err) {
-    res.status(422).json({ message: "Unable to fetch the project's reviews" });
+    return res
+      .status(422)
+      .json({ message: "Unable to fetch the project's reviews" });
   }
-  return next();
 };
 
-const getReviewByID = async (req, res, next) => {
+const getReviewByID = async (req, res) => {
   const { id, reviewId } = req.params;
   try {
     const project = await Project.findById(id);
@@ -272,14 +268,13 @@ const getReviewByID = async (req, res, next) => {
           'Could not find the review, either it dose not exist or has been deleted',
       });
     }
-    res.json({ review });
+    return res.json({ review });
   } catch (err) {
-    res.status(422).json({ message: 'Unable to fetch the review' });
+    return res.status(422).json({ message: 'Unable to fetch the review' });
   }
-  return next();
 };
 
-const createReview = async (req, res, next) => {
+const createReview = async (req, res) => {
   const { id } = req.params;
   const { userID, rating, content } = req.body;
 
@@ -308,17 +303,16 @@ const createReview = async (req, res, next) => {
 
     await project.save();
 
-    res.json({
+    return res.json({
       message: 'Review created successfully',
       reviews: project.reviews,
     });
   } catch (error) {
-    res.status(422).json({ message: 'Unable to create review' });
+    return res.status(422).json({ message: 'Unable to create review' });
   }
-  return next();
 };
 
-const updateReview = async (req, res, next) => {
+const updateReview = async (req, res) => {
   const { id, reviewId } = req.params;
   const { rating, content } = req.body;
 
@@ -338,17 +332,16 @@ const updateReview = async (req, res, next) => {
 
     await project.save();
 
-    res.json({
+    return res.json({
       message: 'Review updated successfully',
       reviews: project.reviews,
     });
   } catch (error) {
-    res.status(422).json({ message: 'Unable to update review' });
+    return res.status(422).json({ message: 'Unable to update review' });
   }
-  return next();
 };
 
-const deleteReview = async (req, res, next) => {
+const deleteReview = async (req, res) => {
   const { id, reviewId } = req.params;
 
   try {
@@ -368,17 +361,16 @@ const deleteReview = async (req, res, next) => {
 
     await project.save();
 
-    res.json({
+    return res.json({
       message: 'Review deleted successfully',
       reviews: project.reviews,
     });
   } catch (error) {
-    res.status(422).json({ message: 'Unable to update review' });
+    return res.status(422).json({ message: 'Unable to update review' });
   }
-  return next();
 };
 
-const getProjectSupporters = async (req, res, next) => {
+const getProjectSupporters = async (req, res) => {
   const { id } = req.params;
   try {
     const project = await Project.findById(id).populate('supporters');
@@ -399,12 +391,11 @@ const getProjectSupporters = async (req, res, next) => {
 
     return await Promise.all(supporters);
   } catch (error) {
-    res.status(422).json({ message: 'Unable to find supporters' });
+    return res.status(422).json({ message: 'Unable to find supporters' });
   }
-  return next();
 };
 
-const supportProject = async (req, res, next) => {
+const supportProject = async (req, res) => {
   const { id } = req.params;
   const { userAmount, userID } = req.body;
   try {
@@ -454,12 +445,11 @@ const supportProject = async (req, res, next) => {
     await user.save();
     return res.json(project);
   } catch (error) {
-    res.status(422).json({ message: 'Unable to support project' });
+    return res.status(422).json({ message: 'Unable to support project' });
   }
-  return next();
 };
 
-const getProjectProfile = async (req, res, next) => {
+const getProjectProfile = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -560,56 +550,63 @@ const getProjectProfile = async (req, res, next) => {
       donations,
     };
 
-    res.json(info);
+    return res.json(info);
   } catch (error) {
-    res.status(422).json({ message: 'Unable to generate project profile' });
+    return res
+      .status(422)
+      .json({ message: 'Unable to generate project profile' });
   }
-  return next();
 };
-
-const client = elasticsearch.Client({
-  host: process.env.ELASTICSEARCH_URL,
-});
 
 const indexProjects = async (req, res) => {
   const projects = await Project.find({});
-  const responses = [];
-  const exceptions = [];
 
-  await Promise.all([
-    projects.forEach((project) => {
-      try {
-        client.index({
-          index: 'new_projects',
-          type: 'project',
-          body: {
-            id: project._id,
-            title: project.title,
-            description: project.description,
-          },
-        });
+  if (projects.length < 1)
+    return res.json({
+      message:
+        'Projects not found, create at least one project then try indexing again',
+    });
 
-        responses.push({
-          message: `Indexing project with id ${project._id} is successful`,
-        });
-      } catch (error) {
-        exceptions.push({
-          message: `Indexing error for project with id ${project._id}`,
+  const projectIndex = projects.map((project) => {
+    const { _id, title, description } = project;
+    return {
+      id: _id,
+      title,
+      description,
+    };
+  });
+
+  projectIndex.forEach((project) => {
+    const { id, title, description } = project;
+    elastic.client
+      .index({
+        index: 'projects',
+        body: {
+          id,
+          title,
+          description,
+        },
+      })
+      .catch((error) =>
+        res.status(422).json({
+          message: 'Indexing error',
           error,
-        });
-      }
-    }),
-  ]);
+        })
+      );
+  });
 
-  res.json({ responses, exceptions });
+  return res.json({ message: 'Indexing projects successfully done' });
 };
 
+// eslint-disable-next-line consistent-return
 const searchIndex = (req, res) => {
   const { text } = req.query;
 
-  client
+  if (!text) return res.status(422).json({ message: 'Invalid query' });
+
+  elastic.client
     .search({
-      index: 'new_projects',
+      index: 'projects',
       body: {
         query: {
           multi_match: {
@@ -626,9 +623,9 @@ const searchIndex = (req, res) => {
       if (matches.length > 0) {
         for (let i = 0; i < matches.length; i += 1) {
           results.push({
-            id: matches[i]._source.id,
-            title: matches[i]._source.title,
-            description: matches[i]._source.description,
+            projectId: matches[i]._source.id,
+            projectTitle: matches[i]._source.title,
+            projectDescription: matches[i]._source.description,
             score: matches[i]._score,
           });
         }

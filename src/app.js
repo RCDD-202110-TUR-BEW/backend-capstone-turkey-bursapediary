@@ -4,6 +4,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const { encryptCookieNodeMiddleware } = require('encrypt-cookie');
 const swaggerUi = require('swagger-ui-express');
+const elastic = require('./elasticsearch');
 const SingletonMongoDB = require('./database/config');
 const router = require('./routers');
 const logger = require('./utils/logger');
@@ -30,6 +31,13 @@ SingletonMongoDB.getInstance();
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
+    elastic.client
+      .info()
+      .then((response) => logger.info(response))
+      .catch((error) => logger.error(error));
+    logger.info(
+      `Elasticsearch connected to ${elastic.client.connectionPool.cloudConnection.url.origin}`
+    );
     logger.info(`Server listening on ${process.env.BASE_URL}:${PORT}`);
   });
 }

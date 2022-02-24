@@ -7,6 +7,7 @@ const project = require('../controllers/project');
 
 router.get('/', project.getAllProjects);
 router.get('/filter', project.filterProjects);
+router.get('/search', project.searchIndex);
 router.post('/', isLogged, project.createProject);
 router.put('/:id', isLogged, project.updateProject);
 router.put('/:id/finish', isLogged, project.doneProject);
@@ -26,6 +27,5 @@ router.get('/:id/supporters', isLogged, project.getProjectSupporters);
 router.put('/:id/support', isLogged, project.supportProject);
 router.get('/:id/profile', isLogged, project.getProjectProfile);
 router.post('/index', isLogged, project.indexProjects);
-router.get('/search', project.searchIndex);
 
 module.exports = router;
