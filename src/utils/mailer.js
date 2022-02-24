@@ -21,7 +21,8 @@ const sendEmail = (user) => {
     subject: 'Welcome | Your account created successfully',
     text: `You can login to the platform by the information below: \n
     Login URL: https://bursapediary.com
-    Email: ${user.email} \n
+    Email: ${user.email}
+    Username: ${user.username}
     Password: The password used while registration \n
     Thank you for using Bursapediary.`,
   };
