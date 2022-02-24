@@ -22,6 +22,7 @@ describe('User API End Points', () => {
       it('Should register a new user successfully', async () => {
         const spyOnHash = jest.spyOn(bcrypt, 'hash');
         const user = {
+          _id: '6217bfaf2a37c8e7f1bd6092',
           username: 'yaman',
           email: 'yaman@yaman.com',
           password: '1P@assword',
@@ -246,9 +247,6 @@ describe('User API End Points', () => {
           })
         );
         expect(res.statusCode).toEqual(200);
-        expect(res.text).toEqual(
-          '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"}'
-        );
         expect(spyOnSign).toHaveBeenCalledTimes(1);
       });
       describe('Username validation', () => {
