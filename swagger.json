@@ -433,14 +433,14 @@
         }
       }
     },
-    "/projects/filter/{category}": {
+    "/projects/filter": {
       "get": {
         "summary": "Filter Projects by the given category",
         "tags": ["Projects"],
         "parameters": [
           {
             "name": "category",
-            "in": "path",
+            "in": "query",
             "required": true,
             "description": "Project Category",
             "type": "string"
