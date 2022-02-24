@@ -18,9 +18,10 @@ jobs:
         node-version: [16.x]
         mongodb-version: [4.2]
     env:
+      PORT: 3000
       NODE_LOCAL_PORT: 3000
       DB_URI: mongodb://127.0.0.1:27017/bursapediary
-      SECRET_KEY: SECRET_KEY
+      SECRET_KEY: UrYIvXF5usbVVv9eoehapuj2fcVIMk2g
       BASE_URL: http://localhost:3000
       EMAIL: newtestingwebdev@gmail.com
       EMAIL_PASSWORD: Toorzx00x
@@ -30,9 +31,12 @@ jobs:
       GITHUB_CLIENT_ID: 35e152e0b4fb843f2d30
       GITHUB_CLIENT_SECRET: 10a6535b8d7b9d5bed39f81802cb36d059cae5f5
       GITHUB_CALL_BACK_URL: http://localhost:3000/auth/github/callback
-      ELASTICSEARCH_URL: http://127.0.0.1:9200
       TEST_DB_URI: mongodb://127.0.0.1:27017/bursapediaryTest
       NODE_ENV: test
+      ELASTICSEARCH_URL: https://bursapediary.es.us-central1.gcp.cloud.es.io:9243
+      ELASTICSEARCH_CLOUD_ID: bursapediary:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJGIyOWEyYTA0MzlkMTQzNjM5NWVlNzFhY2NiYTVjMzE0JGEyNzk3NWMyMjc4MzRlYTBiMDEwZTdkZDgwYjMyYWRi
+      ELASTICSEARCH_USERNAME: elastic
+      ELASTICSEARCH_PASSWORD: ehDpIwZ0jMVEBPbFfBzinzoJ
     steps:
       - name: Git checkout
         uses: actions/checkout@v1
