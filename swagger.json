@@ -1099,10 +1099,12 @@
       "properties": {
         "username": {
           "type": "string",
+          "example": "yamano",
           "required": true
         },
         "password": {
           "type": "string",
+          "example": "123456789@Bb",
           "required": true
         }
       }
@@ -1112,14 +1114,17 @@
       "properties": {
         "username": {
           "type": "string",
+          "example": "yamano",
           "required": true
         },
         "password": {
           "type": "string",
+          "example": "123456789@Bb",
           "required": true
         },
         "confirmPassword": {
           "type": "string",
+          "example": "123456789@Bb",
           "required": true
         },
         "email": {
