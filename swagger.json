@@ -926,11 +926,11 @@
         }
       }
     },
-    "/projects/search/{text}": {
+    "/projects/search": {
       "parameters": [
         {
           "name": "text",
-          "in": "path",
+          "in": "query",
           "required": true,
           "description": "Search string",
           "type": "string"
