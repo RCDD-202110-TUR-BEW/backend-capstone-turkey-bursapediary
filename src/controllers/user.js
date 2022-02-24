@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const sendEmail = require('../utils/mailer');
 
 const login = async (req, res) => {
   try {
@@ -77,6 +78,8 @@ const register = async (req, res) => {
         'hex'
       )}`,
     });
+
+    sendEmail(newUser);
 
     return res.status(201).json(newUser);
   } catch (err) {
