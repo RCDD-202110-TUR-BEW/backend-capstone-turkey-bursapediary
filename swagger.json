@@ -404,6 +404,16 @@
         "security": [{ "SessionKey": [] }],
         "tags": ["Projects"],
         "summary": "Create new project",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/ProjectBody"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Created"
@@ -1114,6 +1124,36 @@
         },
         "email": {
           "type": "string",
+          "required": true
+        }
+      }
+    },
+    "ProjectBody": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "very cool title",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "example": "very cool description",
+          "required": true
+        },
+        "amount": {
+          "type": "number",
+          "example": 10000,
+          "required": true
+        },
+        "owners": {
+          "type": "array",
+          "example": ["userId_here"],
+          "required": true
+        },
+        "categories": {
+          "type": "array",
+          "example": ["categoryName_here", "categoryName_here"],
           "required": true
         }
       }

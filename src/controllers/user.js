@@ -42,7 +42,10 @@ const login = async (req, res) => {
       httpOnly: true,
       signed: true,
     });
-    return res.json({ token });
+    return res.json({
+      message: `Logged in successfully as ${payload.username} with id ${user._id}`,
+      token,
+    });
   } catch (err) {
     return res.status(400).send(err);
   }
