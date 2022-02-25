@@ -20,8 +20,9 @@ const sendEmail = (user) => {
     to: user.email,
     subject: 'Welcome | Your account created successfully',
     text: `You can login to the platform by the information below: \n
-    Login URL: http://localhost:3000
-    Email: ${user.email} \n
+    Login URL: https://bursapediary.com
+    Email: ${user.email}
+    Username: ${user.username}
     Password: The password used while registration \n
     Thank you for using Bursapediary.`,
   };

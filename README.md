@@ -125,16 +125,21 @@ Bursapediary is a place where people come to find supporters for their dreams, h
 
 ### Database Diagram
 
-![Database](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/database.png)
+![Database](https://user-images.githubusercontent.com/14183741/155191770-a41d1cb1-d619-421b-aac0-ca22106afea4.png)
 
-### System Architecture Flowchart
-![System](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/system.png)
+### System Design Flowchart
+![System](https://user-images.githubusercontent.com/14183741/155191821-fcc65cf5-1d6c-49ef-93c7-c313618797cb.png)
 
 ### OpenAPI Docs
-![Docs](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/docs-bug-bashing/src/views/image/docs.png)
+![Docs](https://user-images.githubusercontent.com/14183741/155191800-2351bf16-d62f-4044-813a-4db70e4e39f2.png)
 
 ### Homepage
-![Homepage](https://raw.githubusercontent.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-bursapediary/d2f0f0a837b6a40b7a8781846446c83ea0992b73/src/views/image/homepage.png)
+![Homepage](https://user-images.githubusercontent.com/14183741/155191813-986b29b0-8025-4719-8845-34c83e91d730.png)
+
+### Performance Monitoring and Benchmarking
+![Performance](https://user-images.githubusercontent.com/14183741/153859236-de8d92b7-ba2b-4b53-80ff-548b6574f0ec.png)
+![Performance](https://user-images.githubusercontent.com/14183741/153859295-8ae577ba-1c4b-4289-83b0-af1afae1f996.png)
+![Performance](https://user-images.githubusercontent.com/14183741/153859327-ba875871-a252-4166-862d-ba00f40c3b09.png)
 
 <!-- GETTING STARTED -->
 ## Getting Started

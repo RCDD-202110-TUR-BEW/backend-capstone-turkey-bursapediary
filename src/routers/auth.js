@@ -32,7 +32,11 @@ routes.get('/google/callback', passport.authenticate('google'), (req, res) => {
     httpOnly: true,
   });
 
-  res.json({ message: 'Auth successful, redirecting....', user: userInToken });
+  res.json({
+    message: `Auth successful with Google, Logged in as ${userInToken.username} with id ${userInToken.id} redirecting....`,
+    token,
+    user: userInToken,
+  });
 });
 
 routes.get('/me', isLogged, (req, res) => {
@@ -69,7 +73,8 @@ routes.get(
     });
 
     res.json({
-      message: 'Auth successful, redirecting....',
+      message: `Auth successful with Github, Logged in as ${userInToken.username} with id ${userInToken.id} redirecting....`,
+      token,
       user: userInToken,
     });
   }

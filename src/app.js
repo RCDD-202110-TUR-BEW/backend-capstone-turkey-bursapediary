@@ -1,16 +1,19 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const { encryptCookieNodeMiddleware } = require('encrypt-cookie');
 const swaggerUi = require('swagger-ui-express');
+const elastic = require('./elasticsearch');
 const SingletonMongoDB = require('./database/config');
 const router = require('./routers');
 const logger = require('./utils/logger');
 const swaggerDocument = require('../swagger.json');
 
 const app = express();
+app.use(cors());
 
-const PORT = process.env.NODE_LOCAL_PORT;
+const PORT = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
@@ -28,7 +31,14 @@ SingletonMongoDB.getInstance();
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    logger.info(`Server listening on http://localhost:${PORT}`);
+    elastic.client
+      .info()
+      .then((response) => logger.info(response))
+      .catch((error) => logger.error(error));
+    logger.info(
+      `Elasticsearch connected to ${elastic.client.connectionPool.cloudConnection.url.origin}`
+    );
+    logger.info(`Server listening on ${process.env.BASE_URL}:${PORT}`);
   });
 }
 

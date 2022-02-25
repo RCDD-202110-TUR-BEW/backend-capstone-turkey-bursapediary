@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const sendEmail = require('../utils/mailer');
 
 const login = async (req, res) => {
   try {
@@ -42,7 +43,10 @@ const login = async (req, res) => {
       httpOnly: true,
       signed: true,
     });
-    return res.json({ token });
+    return res.json({
+      message: `Logged in successfully as ${payload.username} with id ${user._id}`,
+      token,
+    });
   } catch (err) {
     return res.status(400).send(err);
   }
@@ -67,7 +71,16 @@ const register = async (req, res) => {
       username,
       password: passwordHashed,
       email,
+      provider: `classic-${Buffer.from(Math.random().toString()).toString(
+        'base64'
+      )}`,
+      providerId: `classic-${Buffer.from(Math.random().toString()).toString(
+        'hex'
+      )}`,
     });
+
+    sendEmail(newUser);
+
     return res.status(201).json(newUser);
   } catch (err) {
     return res.status(400).send(err);
@@ -83,7 +96,7 @@ const logout = (req, res) => {
   }
 };
 
-const getUserProfile = async (req, res, next) => {
+const getUserProfile = async (req, res) => {
   const { username } = req.params;
   try {
     const user = await User.findOne({ username }).populate({
@@ -116,11 +129,10 @@ const getUserProfile = async (req, res, next) => {
 
     info.donations = donations;
 
-    res.json(info);
+    return res.json(info);
   } catch (error) {
-    res.status(422).json({ message: 'Unable to generate user profile' });
+    return res.status(422).json({ message: 'Unable to generate user profile' });
   }
-  return next();
 };
 
 const updateUser = async (req, res) => {

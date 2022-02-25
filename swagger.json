@@ -1,11 +1,25 @@
 {
   "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Bursapediary API",
+    "description": "Support and join your favorite projects with pure, friendly and promising platform",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "name": "Bursapediary Team",
+      "url": "https://bursapediary.com/",
+      "email": "newtestingwebdev@gmail.com"
+    }
+  },
   "components": {
     "securitySchemes": {
       "SessionKey": {
         "type": "apiKey",
         "in": "header",
-        "name": "Authorization"
+        "name": "authorization"
       }
     },
     "schemas": {
@@ -183,11 +197,6 @@
         }
       }
     }
-  },
-  "info": {
-    "version": "1.0.0",
-    "title": "Bursapediary API",
-    "description": ""
   },
   "servers": [
     {
@@ -374,7 +383,6 @@
     },
     "/projects": {
       "get": {
-        "security": [{ "SessionKey": [] }],
         "tags": ["Projects"],
         "summary": "List all projects",
         "responses": {
@@ -396,6 +404,16 @@
         "security": [{ "SessionKey": [] }],
         "tags": ["Projects"],
         "summary": "Create new project",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/ProjectBody"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Created"
@@ -415,14 +433,14 @@
         }
       }
     },
-    "/projects/filter/{category}": {
+    "/projects/filter": {
       "get": {
         "summary": "Filter Projects by the given category",
         "tags": ["Projects"],
         "parameters": [
           {
             "name": "category",
-            "in": "path",
+            "in": "query",
             "required": true,
             "description": "Project Category",
             "type": "string"
@@ -473,6 +491,7 @@
         }
       },
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Update project by id",
         "tags": ["Projects"],
         "responses": {
@@ -491,6 +510,7 @@
         }
       },
       "delete": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Delete project by id",
         "tags": ["Projects"],
         "responses": {
@@ -520,6 +540,7 @@
         }
       ],
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Change project donation status to completed by id",
         "tags": ["Projects"],
         "responses": {
@@ -567,6 +588,7 @@
         }
       },
       "post": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Create comment on project by id",
         "tags": ["Projects"],
         "responses": {
@@ -627,6 +649,7 @@
         }
       },
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Update project single comment by id",
         "tags": ["Projects"],
         "responses": {
@@ -645,6 +668,7 @@
         }
       },
       "delete": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Delete project single comment by id",
         "tags": ["Projects"],
         "responses": {
@@ -692,6 +716,7 @@
         }
       },
       "post": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Create review on project by id",
         "tags": ["Projects"],
         "responses": {
@@ -752,6 +777,7 @@
         }
       },
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Update project single review by id",
         "tags": ["Projects"],
         "responses": {
@@ -770,6 +796,7 @@
         }
       },
       "delete": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Delete project single review by id",
         "tags": ["Projects"],
         "responses": {
@@ -799,6 +826,7 @@
         }
       ],
       "get": {
+        "security": [{ "SessionKey": [] }],
         "summary": "List project supporters by id",
         "tags": ["Projects"],
         "responses": {
@@ -828,6 +856,7 @@
         }
       ],
       "put": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Make donation on project by id",
         "tags": ["Projects"],
         "responses": {
@@ -857,6 +886,7 @@
         }
       ],
       "get": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Generate project profile by id",
         "tags": ["Projects"],
         "responses": {
@@ -877,6 +907,7 @@
     },
     "/projects/index": {
       "post": {
+        "security": [{ "SessionKey": [] }],
         "summary": "Index projects to elasticsearch client",
         "tags": ["Projects"],
         "responses": {
@@ -895,11 +926,11 @@
         }
       }
     },
-    "/projects/search/{text}": {
+    "/projects/search": {
       "parameters": [
         {
           "name": "text",
-          "in": "path",
+          "in": "query",
           "required": true,
           "description": "Search string",
           "type": "string"
@@ -1068,10 +1099,12 @@
       "properties": {
         "username": {
           "type": "string",
+          "example": "yamano",
           "required": true
         },
         "password": {
           "type": "string",
+          "example": "123456789@Bb",
           "required": true
         }
       }
@@ -1081,14 +1114,51 @@
       "properties": {
         "username": {
           "type": "string",
+          "example": "yamano",
           "required": true
         },
         "password": {
           "type": "string",
+          "example": "123456789@Bb",
+          "required": true
+        },
+        "confirmPassword": {
+          "type": "string",
+          "example": "123456789@Bb",
           "required": true
         },
         "email": {
           "type": "string",
+          "required": true
+        }
+      }
+    },
+    "ProjectBody": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "very cool title",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "example": "very cool description",
+          "required": true
+        },
+        "amount": {
+          "type": "number",
+          "example": 10000,
+          "required": true
+        },
+        "owners": {
+          "type": "array",
+          "example": ["userId_here"],
+          "required": true
+        },
+        "categories": {
+          "type": "array",
+          "example": ["categoryName_here", "categoryName_here"],
           "required": true
         }
       }
