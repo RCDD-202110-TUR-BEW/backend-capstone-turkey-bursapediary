@@ -143,8 +143,10 @@ const getCommentByID = async (req, res) => {
     if (!project) {
       return res.status(404).json({ message: 'Could not find the project' });
     }
-    const comment = project.comments.filter((item) => item._id === commentId);
-    if (comment.length < 1) {
+    const comment = project.comments.find(
+      (item) => item._id.toString() === commentId
+    );
+    if (!comment) {
       return res.status(404).json({
         message:
           'Could not find the comment, either it dose not exist or has been deleted',
@@ -261,8 +263,10 @@ const getReviewByID = async (req, res) => {
     if (!project) {
       return res.status(404).json({ message: 'Could not find the project' });
     }
-    const review = project.reviews.filter((item) => item._id === reviewId);
-    if (review.length < 1) {
+    const review = project.reviews.find(
+      (item) => item._id.toString() === reviewId
+    );
+    if (!review) {
       return res.status(404).json({
         message:
           'Could not find the review, either it dose not exist or has been deleted',

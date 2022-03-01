@@ -90,7 +90,7 @@ const register = async (req, res) => {
 const logout = (req, res) => {
   try {
     res.clearCookie('_t');
-    return res.status(200).json({ success: true });
+    return res.json({ success: true });
   } catch (err) {
     return res.status(400).send(err);
   }
@@ -141,7 +141,7 @@ const updateUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(id, req.body, {
       returnOriginal: false,
     });
-    return res.status(200).json(user);
+    return res.json(user);
   } catch (e) {
     return res.status(400).json(e);
   }
