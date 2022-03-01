@@ -331,18 +331,31 @@
       "put": {
         "security": [{ "SessionKey": [] }],
         "summary": "Updates a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/UserUpdateBody"
+              }
+            }
+          }
+        },
         "tags": ["Users"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "user ID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "schema": {
               "$ref": "#/definitions/id"
             }
           }
-        ]
+        }
       },
       "delete": {
         "security": [{ "SessionKey": [] }],
@@ -494,6 +507,16 @@
         "security": [{ "SessionKey": [] }],
         "summary": "Update project by id",
         "tags": ["Projects"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/ProjectUpdateBody"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -591,6 +614,16 @@
         "security": [{ "SessionKey": [] }],
         "summary": "Create comment on project by id",
         "tags": ["Projects"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/CommentBody"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Created",
@@ -652,6 +685,16 @@
         "security": [{ "SessionKey": [] }],
         "summary": "Update project single comment by id",
         "tags": ["Projects"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/CommentUpdateBody"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -719,6 +762,16 @@
         "security": [{ "SessionKey": [] }],
         "summary": "Create review on project by id",
         "tags": ["Projects"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/ReviewBody"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Created",
@@ -741,7 +794,7 @@
         }
       }
     },
-    "/projects/{id}/review/{reviewId}": {
+    "/projects/{id}/reviews/{reviewId}": {
       "parameters": [
         {
           "name": "id",
@@ -780,6 +833,16 @@
         "security": [{ "SessionKey": [] }],
         "summary": "Update project single review by id",
         "tags": ["Projects"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/ReviewUpdateBody"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -1159,6 +1222,103 @@
         "categories": {
           "type": "array",
           "example": ["categoryName_here", "categoryName_here"],
+          "required": true
+        }
+      }
+    },
+    "UserUpdateBody": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "johndoe"
+        },
+        "name": {
+          "type": "string",
+          "example": "john doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "email@gmail.com"
+        }
+      }
+    },
+    "ProjectUpdateBody": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "very cool title",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "example": "very cool description",
+          "required": true
+        },
+        "amount": {
+          "type": "number",
+          "example": 10000,
+          "required": true
+        }
+      }
+    },
+    "CommentBody": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string",
+          "example": "userId_here",
+          "required": true
+        },
+        "content": {
+          "type": "string",
+          "example": "very cool comment",
+          "required": true
+        }
+      }
+    },
+    "CommentUpdateBody": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "example": "very cool comment",
+          "required": true
+        }
+      }
+    },
+    "ReviewBody": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string",
+          "example": "userId_here",
+          "required": true
+        },
+        "content": {
+          "type": "string",
+          "example": "very cool review",
+          "required": true
+        },
+        "rating": {
+          "type": "number",
+          "example": 5,
+          "required": true
+        }
+      }
+    },
+    "ReviewUpdateBody": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "example": "very cool review",
+          "required": true
+        },
+        "rating": {
+          "type": "number",
+          "example": 4,
           "required": true
         }
       }
