@@ -135,6 +135,46 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+const getUserProfileById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findOne({ _id: id }).populate({
+      path: 'donations',
+      populate: {
+        path: 'projectID',
+        model: 'projects',
+      },
+    });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const info = {
+      username: user.username,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      type: user.type,
+    };
+    const donations = [];
+
+    user.donations.forEach((donation) => {
+      const single = {
+        projectName: donation.projectID.title,
+        donationAmount: donation.amount,
+        donationDate: donation.timestamp,
+      };
+      donations.push(single);
+    });
+
+    info.donations = donations;
+
+    return res.json(info);
+  } catch (error) {
+    return res.status(422).json({ message: 'Unable to generate user profile' });
+  }
+};
+
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -148,6 +188,7 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
+  console.log('====== params', req.params);
   try {
     const { id } = req.params;
     const user = await User.findOneAndDelete(id);
@@ -166,6 +207,7 @@ module.exports = {
   register,
   logout,
   getUserProfile,
+  getUserProfileById,
   updateUser,
   deleteUser,
 };

@@ -57,6 +57,7 @@ routes.post(
 );
 
 routes.post('/logout', UserController.logout);
+routes.get('/:id', isLogged, UserController.getUserProfileById);
 routes.get('/:username', isLogged, UserController.getUserProfile);
 routes.put('/:id', isLogged, UserController.updateUser);
 routes.delete('/:id', isLogged, UserController.deleteUser);

@@ -328,6 +328,25 @@
           "type": "string"
         }
       ],
+      "get": {
+        "security": [{ "SessionKey": [] }],
+        "summary": "Get user by id",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity response"
+          }
+        }
+      },
       "put": {
         "security": [{ "SessionKey": [] }],
         "summary": "Updates a user",
