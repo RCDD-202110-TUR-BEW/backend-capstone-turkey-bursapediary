@@ -288,20 +288,20 @@
         }
       }
     },
-    "/users/{username}": {
+    "/users/{idOrUsername}": {
       "parameters": [
         {
-          "name": "username",
+          "name": "idOrUsername",
           "in": "path",
           "required": true,
-          "description": "username",
+          "description": "ObjectId or Username",
           "type": "string"
         }
       ],
       "get": {
         "security": [{ "SessionKey": [] }],
         "tags": ["Users"],
-        "summary": "Get user profile by username",
+        "summary": "Get user profile by username or id",
         "responses": {
           "200": {
             "description": "OK"
@@ -314,101 +314,6 @@
           },
           "422": {
             "description": "Unprocessable Entity response"
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "user ID",
-          "type": "string"
-        }
-      ],
-      "get": {
-        "security": [{ "SessionKey": [] }],
-        "summary": "Get user by id",
-        "tags": ["Users"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity response"
-          }
-        }
-      },
-      "put": {
-        "security": [{ "SessionKey": [] }],
-        "summary": "Updates a user",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/definitions/UserUpdateBody"
-              }
-            }
-          }
-        },
-        "tags": ["Users"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          }
-        }
-      },
-      "delete": {
-        "security": [{ "SessionKey": [] }],
-        "summary": "Deletes user by id",
-        "tags": ["Users"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "user ID",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "User Deleted",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          "404": {
-            "description": "User Not Found",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
           }
         }
       }

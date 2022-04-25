@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const User = require('../models/user');
 const sendEmail = require('../utils/mailer');
@@ -97,49 +98,13 @@ const logout = (req, res) => {
 };
 
 const getUserProfile = async (req, res) => {
-  const { username } = req.params;
-  try {
-    const user = await User.findOne({ username }).populate({
-      path: 'donations',
-      populate: {
-        path: 'projectID',
-        model: 'projects',
-      },
-    });
-
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    const info = {
-      username: user.username,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      type: user.type,
-    };
-    const donations = [];
-
-    user.donations.forEach((donation) => {
-      const single = {
-        projectName: donation.projectID.title,
-        donationAmount: donation.amount,
-        donationDate: donation.timestamp,
-      };
-      donations.push(single);
-    });
-
-    info.donations = donations;
-
-    return res.json(info);
-  } catch (error) {
-    return res.status(422).json({ message: 'Unable to generate user profile' });
-  }
-};
-
-const getUserProfileById = async (req, res) => {
-  const { id } = req.params;
+  const { idOrUsername } = req.params;
+  const isId = mongoose.isValidObjectId(idOrUsername);
 
   try {
-    const user = await User.findOne({ _id: id }).populate({
+    const user = await User.findOne(
+      isId ? { _id: idOrUsername } : { username: idOrUsername }
+    ).populate({
       path: 'donations',
       populate: {
         path: 'projectID',
@@ -206,7 +171,6 @@ module.exports = {
   register,
   logout,
   getUserProfile,
-  getUserProfileById,
   updateUser,
   deleteUser,
 };
