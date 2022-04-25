@@ -188,7 +188,6 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  console.log('====== params', req.params);
   try {
     const { id } = req.params;
     const user = await User.findOneAndDelete(id);
