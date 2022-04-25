@@ -294,7 +294,7 @@
           "name": "idOrUsername",
           "in": "path",
           "required": true,
-          "description": "ObjectId or Username",
+          "description": "Object Id or Username",
           "type": "string"
         }
       ],
@@ -314,6 +314,82 @@
           },
           "422": {
             "description": "Unprocessable Entity response"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "user ID",
+          "type": "string"
+        }
+      ],
+      "put": {
+        "security": [{ "SessionKey": [] }],
+        "summary": "Updates a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/UserUpdateBody"
+              }
+            }
+          }
+        },
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [{ "SessionKey": [] }],
+        "summary": "Deletes user by id",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "user ID",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User Deleted",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
           }
         }
       }
