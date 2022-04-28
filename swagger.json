@@ -288,20 +288,20 @@
         }
       }
     },
-    "/users/{username}": {
+    "/users/{idOrUsername}": {
       "parameters": [
         {
-          "name": "username",
+          "name": "idOrUsername",
           "in": "path",
           "required": true,
-          "description": "username",
+          "description": "Object Id or Username",
           "type": "string"
         }
       ],
       "get": {
         "security": [{ "SessionKey": [] }],
         "tags": ["Users"],
-        "summary": "Get user profile by username",
+        "summary": "Get user profile by username or id",
         "responses": {
           "200": {
             "description": "OK"

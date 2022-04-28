@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const User = require('../models/user');
 const sendEmail = require('../utils/mailer');
@@ -97,9 +98,13 @@ const logout = (req, res) => {
 };
 
 const getUserProfile = async (req, res) => {
-  const { username } = req.params;
+  const { idOrUsername } = req.params;
+  const isId = mongoose.isValidObjectId(idOrUsername);
+
   try {
-    const user = await User.findOne({ username }).populate({
+    const user = await User.findOne(
+      isId ? { _id: idOrUsername } : { username: idOrUsername }
+    ).populate({
       path: 'donations',
       populate: {
         path: 'projectID',
